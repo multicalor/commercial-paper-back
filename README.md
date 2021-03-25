@@ -14,102 +14,45 @@ sudo apt-get install curl
 Enter the command in the terminal:
 sudo apt-get -y install docker-compose
 
-3. 1. Add your user to the Docker group.
+3. Add your user to the Docker group.
 Enter the command in the terminal:
 sudo usermod -a -G docker <username>
 
-4. Download Fabric samples, docker images, and binaries.
+4. Download project from git.
+From the project folder, run the command in the terminal
+git clone git@github.com:multicalor/hf.git
+
+5. Download binaries.
+Enter the project dir and run the command in the terminal:
+cd hl
+chmod +x
+./bootstrap.sh
+
+        
+
+        Create the network
+
+1. From the project root folder of the project
 Enter the command in the terminal:
-curl -sSL https://bit.ly/2ysbOFE | bash -s
+    cd commercial-paper
+    ./network-starter.sh
 
-                3. Инструкция по настройке тестовых рабочих окружений и деплоя скаченых примеров fabric-samples
+        Deploy the smart contract to the channel
+    Install and approve the smart contract as MagnetoCorp
 
-3.0 Очистка окружения при повторной наладке
-Кладёт все контейнеры и очищает переменыые окружения
-ВВВОД:
-fabric-samples/commercial-paper$ ./network-clean.sh
-
-Из /home/prg/prg/482/fabric-samples
-
-3.1 3апустить в новой консоли(привычка от CS-1.6 называть терминал консолью) скрипт подготавливающий и запускающий контейнера с необходимыми настройками
-ВВОД:
-fabric-samples/commercial-paper$ 
-
-./network-starter.sh
-
-ОПЦИЯ:
-для просмотра всех сетей в Docker
-docker network ls
-
-    просмотр всех запущенных контейнеров
-    docker ps
-
-    наша основная сеть fabric_test
-
-    для просмотра параметров сети в новом окне терминала
-    ВВОД:
-    docker inspect fabric_test
-
-    из расположения запускаем сценарий мониторинга
-    ВВОД:
-    fabric-samples/commercial-paper/organization/magnetocorp/configuration/cli$ ./monitordocker.sh
-
-3.2 Настройка chaincode для MagnetoCorp
-
-    3.2.1 Открыть новый терминал и в нем:
-    ПЕРЕХОД:
-    fabric-samples/commercial-paper/organization/magnetocorp$
-
-    3.2.2 Запуск скрипта установки переменных окружения
-    fabric-samples/commercial-paper/organization/magnetocorp$ 
-
-    ВВОД:
+1. From the project root folder of the project
+    Enter the command in the terminal:
+    cd magnetocorp
     source magnetocorp.sh
-
-    ВЫВОД:
-    Using organization 2
-    Using organization 2
-    }
-    }
-    }
-    }
-    export BASH_FUNC_errorln%%="() {  println "${C_RED}${1}${C_RESET}""
-    export BASH_FUNC_infoln%%="() {  println "${C_BLUE}${1}${C_RESET}""
-    export BASH_FUNC_successln%%="() {  println "${C_GREEN}${1}${C_RESET}""
-    export BASH_FUNC_warnln%%="() {  println "${C_YELLOW}${1}${C_RESET}""
-    export CORE_PEER_ADDRESS="localhost:9051"
-    export CORE_PEER_LOCALMSPID="Org2MSP"
-    export CORE_PEER_MSPCONFIGPATH="/home/prg/prg/482/fabric-samples/test-network/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp"
-    export CORE_PEER_TLS_ENABLED="true"
-    export CORE_PEER_TLS_ROOTCERT_FILE="/home/prg/prg/482/fabric-samples/test-network/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt"
-    export FABRIC_CFG_PATH="/home/prg/prg/482/fabric-samples/commercial-paper/organization/magnetocorp/../../../config"
-    export ORDERER_ADMIN_TLS_PRIVATE_KEY="/home/prg/prg/482/fabric-samples/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.key"
-    export ORDERER_ADMIN_TLS_SIGN_CERT="/home/prg/prg/482/fabric-samples/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt"
-    export ORDERER_CA="/home/prg/prg/482/fabric-samples/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem"
-    export PATH="/home/prg/prg/482/fabric-samples/commercial-paper/organization/magnetocorp/../../../bin:/home/prg/prg/482/fabric-samples/test-network:/home/prg/.nvm/versions/node/v15.0.1/bin:/home/prg/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
-    export PEER0_ORG1_CA="/home/prg/prg/482/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
-    export PEER0_ORG2_CA="/home/prg/prg/482/fabric-samples/test-network/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt"
-    export PEER0_ORG3_CA="/home/prg/prg/482/fabric-samples/test-network/organizations/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt"
-
-
-    3.2.3 Установка смарт-контракта papercontract
-    fabric-samples/commercial-paper/organization/magnetocorp$
-
     peer lifecycle chaincode package cp.tar.gz --lang node --path ./contract --label cp_0
-
-
-    3.2.4.1 Установка чейнкод на основе смарт-контракта papercontract
-    ВВОД:
-    fabric-samples/commercial-paper/organization/magnetocorp$
-
     peer lifecycle chaincode install cp.tar.gz
 
-    ВЫВОД:
-    2021-03-20 14:14:18.991 EET [cli.lifecycle.chaincode] submitInstallProposal -> INFO 002 Chaincode code package identifier: cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
+    OUTPUT:
+    2021-03-20 14:14:18.991 EET [cli.lifecycle.chaincode] submitInstallProposal -> INFO 002 cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
 
-    3.2.4.2 КОПИРУЕМ:
-    cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
-    ВСТАВЛЯЕМ
+    COPY line from output after "Chaincode code package identifier: "
+    an example of a copied string "cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a" (your string may be different)
+    paste the copied line after the command "export PACKAGE_ID=" + "cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a" (your string may be different)
     export PACKAGE_ID=cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
 
     3.2.4.3 ВВОД:
