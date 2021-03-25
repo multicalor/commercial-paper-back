@@ -1,8 +1,3 @@
-# HlF
-Get project.
-
-
-
 1. Prerequisites for Linux
 
 Install the latest version of git if it is not already installed.
@@ -25,13 +20,15 @@ Enter the command in the terminal:
 
     sudo usermod -a -G docker <username>
 
+
 Download project from git.
-From the project folder, run the command in the terminal:
+
+Open new terminal from project root dir ENTER command:
 
     git clone git@github.com:multicalor/hf.git
 
 Download binaries.
-Enter the project dir and run the command in the terminal:
+ENTER: the project dir and run the command in the terminal:
 
     cd hl
     chmod +x
@@ -58,7 +55,7 @@ Create the network COMPLETE!
 Install and approve the smart contract as MagnetoCorp.
 
 Open new terminal from project root dir ENTER command:
-Enter the command in the terminal:
+ENTER: the command in the terminal:
 
     cd /commercial-paper/organization/magnetocorp
 
