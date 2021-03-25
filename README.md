@@ -1,59 +1,258 @@
-[//]: # (SPDX-License-Identifier: CC-BY-4.0)
+# HlF
 
-# Hyperledger Fabric Samples
+Prerequisites for Linux
 
-You can use Fabric samples to get started working with Hyperledger Fabric, explore important Fabric features, and learn how to build applications that can interact with blockchain networks using the Fabric SDKs. To learn more about Hyperledger Fabric, visit the [Fabric documentation](https://hyperledger-fabric.readthedocs.io/en/latest).
+1. Install the latest version of git if it is not already installed.
+Enter the command in the terminal:
+sudo apt-get install git
 
-## Getting started with the Fabric samples
+2. Install the latest version of cURL if it is not already installed.
+Enter the command in the terminal:
+sudo apt-get install curl
 
-To use the Fabric samples, you need to download the Fabric Docker images and the Fabric CLI tools. First, make sure that you have installed all of the [Fabric prerequisites](https://hyperledger-fabric.readthedocs.io/en/latest/prereqs.html). You can then follow the instructions to [Install the Fabric Samples, Binaries, and Docker Images](https://hyperledger-fabric.readthedocs.io/en/latest/install.html) in the Fabric documentation. In addition to downloading the Fabric images and tool binaries, the Fabric samples will also be cloned to your local machine.
+3. Install the latest version of Docker if it is not already installed.
+Enter the command in the terminal:
+sudo apt-get -y install docker-compose
 
-## Test network
+3. 1. Add your user to the Docker group.
+Enter the command in the terminal:
+sudo usermod -a -G docker <username>
 
-The [Fabric test network](test-network) in the samples repository provides a Docker Compose based test network with two
-Organization peers and an ordering service node. You can use it on your local machine to run the samples listed below.
-You can also use it to deploy and test your own Fabric chaincodes and applications. To get started, see
-the [test network tutorial](https://hyperledger-fabric.readthedocs.io/en/latest/test_network.html).
+4. Download Fabric samples, docker images, and binaries.
+Enter the command in the terminal:
+curl -sSL https://bit.ly/2ysbOFE | bash -s
 
-## Asset transfer samples and tutorials
+                3. Инструкция по настройке тестовых рабочих окружений и деплоя скаченых примеров fabric-samples
 
-The asset transfer series provides a series of sample smart contracts and applications to demonstrate how to store and transfer assets using Hyperledger Fabric.
-Each sample and associated tutorial in the series demonstrates a different core capability in Hyperledger Fabric. The **Basic** sample provides an introduction on how
-to write smart contracts and how to interact with a Fabric network using the Fabric SDKs. The **Ledger queries**, **Private data**, and **State-based endorsement**
-samples demonstrate these additional capabilities. Finally, the **Secured agreement** sample demonstrates how to bring all the capabilities together to securely
-transfer an asset in a more realistic transfer scenario.
+3.0 Очистка окружения при повторной наладке
+Кладёт все контейнеры и очищает переменыые окружения
+ВВВОД:
+fabric-samples/commercial-paper$ ./network-clean.sh
 
-|  **Smart Contract** | **Description** | **Tutorial** | **Smart contract languages** | **Application languages** |
-| -----------|------------------------------|----------|---------|---------|
-| [Basic](asset-transfer-basic) | The Basic sample smart contract that allows you to create and transfer an asset by putting data on the ledger and retrieving it. This sample is recommended for new Fabric users. | [Writing your first application](https://hyperledger-fabric.readthedocs.io/en/latest/write_first_app.html) | Go, JavaScript, TypeScript, Java | Go, JavaScript, TypeScript, Java |
-| [Ledger queries](asset-transfer-ledger-queries) | The ledger queries sample demonstrates range queries and transaction updates using range queries (applicable for both LevelDB and CouchDB state databases), and how to deploy an index with your chaincode to support JSON queries (applicable for CouchDB state database only). | [Using CouchDB](https://hyperledger-fabric.readthedocs.io/en/latest/couchdb_tutorial.html) | Go, JavaScript | Java, JavaScript |
-| [Private data](asset-transfer-private-data) | This sample demonstrates the use of private data collections, how to manage private data collections with the chaincode lifecycle, and how the private data hash can be used to verify private data on the ledger. It also demonstrates how to control asset updates and transfers using client-based ownership and access control. | [Using Private Data](https://hyperledger-fabric.readthedocs.io/en/latest/private_data_tutorial.html) | Go, Java | JavaScript |
-| [State-Based Endorsement](asset-transfer-sbe) | This sample demonstrates how to override the chaincode-level endorsement policy to set endorsement policies at the key-level (data/asset level). | [Using State-based endorsement](https://github.com/hyperledger/fabric-samples/tree/main/asset-transfer-sbe) | Java, TypeScript | JavaScript |
-| [Secured agreement](asset-transfer-secured-agreement) | Smart contract that uses implicit private data collections, state-based endorsement, and organization-based ownership and access control to keep data private and securely transfer an asset with the consent of both the current owner and buyer. | [Secured asset transfer](https://hyperledger-fabric.readthedocs.io/en/latest/secured_asset_transfer/secured_private_asset_transfer_tutorial.html)  | Go | JavaScript |
-| [Events](asset-transfer-events) | The events sample demonstrates how smart contracts can emit events that are read by the applications interacting with the network. | [README](asset-transfer-events/README.md)  | JavaScript, Java | JavaScript |
-| [Attribute-based access control](asset-transfer-abac) | Demonstrates the use of attribute and identity based access control using a simple asset transfer scenario | [README](asset-transfer-abac/README.md)  | Go | None |
+Из /home/prg/prg/482/fabric-samples
+
+3.1 3апустить в новой консоли(привычка от CS-1.6 называть терминал консолью) скрипт подготавливающий и запускающий контейнера с необходимыми настройками
+ВВОД:
+fabric-samples/commercial-paper$ 
+
+./network-starter.sh
+
+ОПЦИЯ:
+для просмотра всех сетей в Docker
+docker network ls
+
+    просмотр всех запущенных контейнеров
+    docker ps
+
+    наша основная сеть fabric_test
+
+    для просмотра параметров сети в новом окне терминала
+    ВВОД:
+    docker inspect fabric_test
+
+    из расположения запускаем сценарий мониторинга
+    ВВОД:
+    fabric-samples/commercial-paper/organization/magnetocorp/configuration/cli$ ./monitordocker.sh
+
+3.2 Настройка chaincode для MagnetoCorp
+
+    3.2.1 Открыть новый терминал и в нем:
+    ПЕРЕХОД:
+    fabric-samples/commercial-paper/organization/magnetocorp$
+
+    3.2.2 Запуск скрипта установки переменных окружения
+    fabric-samples/commercial-paper/organization/magnetocorp$ 
+
+    ВВОД:
+    source magnetocorp.sh
+
+    ВЫВОД:
+    Using organization 2
+    Using organization 2
+    }
+    }
+    }
+    }
+    export BASH_FUNC_errorln%%="() {  println "${C_RED}${1}${C_RESET}""
+    export BASH_FUNC_infoln%%="() {  println "${C_BLUE}${1}${C_RESET}""
+    export BASH_FUNC_successln%%="() {  println "${C_GREEN}${1}${C_RESET}""
+    export BASH_FUNC_warnln%%="() {  println "${C_YELLOW}${1}${C_RESET}""
+    export CORE_PEER_ADDRESS="localhost:9051"
+    export CORE_PEER_LOCALMSPID="Org2MSP"
+    export CORE_PEER_MSPCONFIGPATH="/home/prg/prg/482/fabric-samples/test-network/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp"
+    export CORE_PEER_TLS_ENABLED="true"
+    export CORE_PEER_TLS_ROOTCERT_FILE="/home/prg/prg/482/fabric-samples/test-network/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt"
+    export FABRIC_CFG_PATH="/home/prg/prg/482/fabric-samples/commercial-paper/organization/magnetocorp/../../../config"
+    export ORDERER_ADMIN_TLS_PRIVATE_KEY="/home/prg/prg/482/fabric-samples/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.key"
+    export ORDERER_ADMIN_TLS_SIGN_CERT="/home/prg/prg/482/fabric-samples/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt"
+    export ORDERER_CA="/home/prg/prg/482/fabric-samples/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem"
+    export PATH="/home/prg/prg/482/fabric-samples/commercial-paper/organization/magnetocorp/../../../bin:/home/prg/prg/482/fabric-samples/test-network:/home/prg/.nvm/versions/node/v15.0.1/bin:/home/prg/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+    export PEER0_ORG1_CA="/home/prg/prg/482/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
+    export PEER0_ORG2_CA="/home/prg/prg/482/fabric-samples/test-network/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt"
+    export PEER0_ORG3_CA="/home/prg/prg/482/fabric-samples/test-network/organizations/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt"
 
 
+    3.2.3 Установка смарт-контракта papercontract
+    fabric-samples/commercial-paper/organization/magnetocorp$
 
-## Additional samples
+    peer lifecycle chaincode package cp.tar.gz --lang node --path ./contract --label cp_0
 
-Additional samples demonstrate various Fabric use cases and application patterns.
 
-|  **Sample** | **Description** | **Documentation** |
-| -------------|------------------------------|------------------|
-| [Commercial paper](commercial-paper) | Explore a use case and detailed application development tutorial in which two organizations use a blockchain network to trade commercial paper. | [Commercial paper tutorial](https://hyperledger-fabric.readthedocs.io/en/latest/tutorial/commercial_paper.html) |
-| [Off chain data](off_chain_data) | Learn how to use the Peer channel-based event services to build an off-chain database for reporting and analytics. | [Peer channel-based event services](https://hyperledger-fabric.readthedocs.io/en/latest/peer_event_services.html) |
-| [Token ERC-20](token-erc-20) | Smart contract demonstrating how to create and transfer fungible tokens using an account-based model. | [README](token-erc-20/README.md) |
-| [Token UTXO](token-utxo) | Smart contract demonstrating how to create and transfer fungible tokens using a UTXO (unspent transaction output) model. | [README](token-utxo/README.md) |
-| [High throughput](high-throughput) | Learn how you can design your smart contract to avoid transaction collisions in high volume environments. | [README](high-throughput/README.md) |
-| [Auction](auction) | Run an auction where bids are kept private until the auction is closed, after which users can reveal their bid | [README](auction/README.md) |
-| [Chaincode](chaincode) | A set of other sample smart contracts, many of which were used in tutorials prior to the asset transfer sample series. | |
-| [Interest rate swaps](interest_rate_swaps) | **Deprecated in favor of state based endorsement asset transfer sample** | |
-| [Fabcar](fabcar) | **Deprecated in favor of basic asset transfer sample** |  |
+    3.2.4.1 Установка чейнкод на основе смарт-контракта papercontract
+    ВВОД:
+    fabric-samples/commercial-paper/organization/magnetocorp$
 
-## License <a name="license"></a>
+    peer lifecycle chaincode install cp.tar.gz
 
-Hyperledger Project source code files are made available under the Apache
-License, Version 2.0 (Apache-2.0), located in the [LICENSE](LICENSE) file.
-Hyperledger Project documentation files are made available under the Creative
-Commons Attribution 4.0 International License (CC-BY-4.0), available at http://creativecommons.org/licenses/by/4.0/.
+    ВЫВОД:
+    2021-03-20 14:14:18.991 EET [cli.lifecycle.chaincode] submitInstallProposal -> INFO 002 Chaincode code package identifier: cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
+
+    3.2.4.2 КОПИРУЕМ:
+    cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
+    ВСТАВЛЯЕМ
+    export PACKAGE_ID=cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
+
+    3.2.4.3 ВВОД:
+    fabric-samples/commercial-paper/organization/magnetocorp$
+
+    ОПЦИЯ: Запрос PACKAGE_ID
+    peer lifecycle chaincode queryinstalled
+
+    export PACKAGE_ID=cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
+
+    3.2.5 Подтверждение chaincode для MagnetoCorp
+    ВВОД:
+    fabric-samples/commercial-paper/organization/magnetocorp$
+
+    peer lifecycle chaincode approveformyorg --orderer localhost:7050 --ordererTLSHostnameOverride orderer.example.com --channelID mychannel --name papercontract -v 0 --package-id $PACKAGE_ID --sequence 1 --tls --cafile $ORDERER_CA
+
+    ВЫВОД:
+    2021-03-21 23:54:56.741 EET [chaincodeCmd] ClientWait -> INFO 001 txid [31b6b54148dc1f5ea1b96ec5d82b5de07fe6537a69bd1230f606d9906be2aa83] committed with status (VALID) at localhost:9051
+
+    ГОТОВО!
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+3.3 Настройка chaincode для digiBank
+
+    3.3.1 Открыть новый терминал и в нем:
+    ПЕРЕХОД:
+    fabric-samples/commercial-paper/organization/digibank$
+
+    Запуск скрипта установки переменных окружения
+    ВВОД:
+    fabric-samples/commercial-paper/organization/digibank$
+
+    source ./digibank.sh
+
+    ВЫВОД:
+    Using organization 1
+    Using organization 1
+    }
+    }
+    }
+    }
+    export BASH_FUNC_errorln%%="() {  println "${C_RED}${1}${C_RESET}""
+    export BASH_FUNC_infoln%%="() {  println "${C_BLUE}${1}${C_RESET}""
+    export BASH_FUNC_successln%%="() {  println "${C_GREEN}${1}${C_RESET}""
+    export BASH_FUNC_warnln%%="() {  println "${C_YELLOW}${1}${C_RESET}""
+    export CORE_PEER_ADDRESS="localhost:7051"
+    export CORE_PEER_LOCALMSPID="Org1MSP"
+    export CORE_PEER_MSPCONFIGPATH="/home/prg/prg/482/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp"
+    export CORE_PEER_TLS_ENABLED="true"
+    export CORE_PEER_TLS_ROOTCERT_FILE="/home/prg/prg/482/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
+    export FABRIC_CFG_PATH="/home/prg/prg/482/fabric-samples/commercial-paper/organization/digibank/../../../config"
+    export ORDERER_ADMIN_TLS_PRIVATE_KEY="/home/prg/prg/482/fabric-samples/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.key"
+    export ORDERER_ADMIN_TLS_SIGN_CERT="/home/prg/prg/482/fabric-samples/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt"
+    export ORDERER_CA="/home/prg/prg/482/fabric-samples/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem"
+    export PATH="/home/prg/prg/482/fabric-samples/commercial-paper/organization/digibank/../../../bin:/home/prg/prg/482/fabric-samples/test-network:/home/prg/.nvm/versions/node/v12.0.0/bin:/home/prg/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+    export PEER0_ORG1_CA="/home/prg/prg/482/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
+    export PEER0_ORG2_CA="/home/prg/prg/482/fabric-samples/test-network/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt"
+    export PEER0_ORG3_CA="/home/prg/prg/482/fabric-samples/test-network/organizations/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt"
+
+
+    3.3.2 Установка смарт-контракта papercontract
+    ВВОД:
+    fabric-samples/commercial-paper/organization/digibank$
+
+    peer lifecycle chaincode package cp.tar.gz --lang node --path ./contract --label cp_0
+
+    3.3.3.1 Установка чейнкод на основе смарт-контракта papercontract
+    ВВОД:
+    fabric-samples/commercial-paper/organization/digibank$
+
+    peer lifecycle chaincode install cp.tar.gz
+
+    ВЫВОД:
+    2021-03-22 00:07:28.650 EET [cli.lifecycle.chaincode] submitInstallProposal -> INFO 001 Installed remotely: response:<status:200 payload:"\nEcp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a\022\004cp_0" >
+    2021-03-22 00:07:28.652 EET [cli.lifecycle.chaincode] submitInstallProposal -> INFO 002 Chaincode code package identifier: cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
+
+
+    3.3.3.2  КОПИРУЕМ:
+    cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
+    ВСТАВЛЯЕМ
+    export PACKAGE_ID=cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
+
+    3.3.3.3 ВВОД:
+    fabric-samples/commercial-paper/organization/digibank$ export PACKAGE_ID=cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
+
+    ОПЦИЯ: запрос PACKAGE_ID необходимого на шаге выше:
+    fabric-samples/commercial-paper/organization/digibank$ 
+    
+    peer lifecycle chaincode queryinstalled
+
+    3.3.4 Подтверждение chaincode для DigiBank
+    ВВОД:
+    fabric-samples/commercial-paper/organization/digibank$ 
+    
+    peer lifecycle chaincode approveformyorg --orderer localhost:7050 --ordererTLSHostnameOverride orderer.example.com --channelID mychannel --name papercontract -v 0 --package-id $PACKAGE_ID --sequence 1 --tls --cafile $ORDERER_CA
+
+    ВЫВОД:
+    2021-03-22 00:12:42.281 EET [chaincodeCmd] ClientWait -> INFO 001 txid [cc80399ec549a80263796312e380e4e73ada7c4d157479f5a161ece68ba802de] committed with status (VALID) at localhost:7051
+
+
+    Commit chaincode на канале
+    ВВОД:
+    peer lifecycle chaincode commit -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --peerAddresses localhost:7051 --tlsRootCertFiles ${PEER0_ORG1_CA} --peerAddresses localhost:9051 --tlsRootCertFiles ${PEER0_ORG2_CA} --channelID mychannel --name papercontract -v 0 --sequence 1 --tls --cafile $ORDERER_CA --waitForEvent
+    
+    ВЫВОД:
+	2021-03-24 11:31:41.510 EET [chaincodeCmd] ClientWait -> INFO 001 txid [5ee8e2a5abe6f2ff6b47ce5c9a2828f485a95e5ccd8d9bc56abf16e1662fc76b] committed with status (VALID) at localhost:7051
+2021-03-24 11:31:41.649 EET [chaincodeCmd] ClientWait -> INFO 002 txid [5ee8e2a5abe6f2ff6b47ce5c9a2828f485a95e5ccd8d9bc56abf16e1662fc76b] committed with status (VALID) at localhost:9051
+
+\_**\_ГОТОВО!\*\*\*\***\*\***\*\*\*\***\*\*\*\***\*\*\*\***\*\***\*\*\*\***\_\_\_**\*\*\*\***\*\***\*\*\*\***\*\*\*\***\*\*\*\***\*\***\*\*\*\***
+
+                Настройка зависимостей Приложения
+
+Клонировать репозиторий:
+ВВОД:
+git clone git@github.com:multicalor/HlF.git
+
+Открыть новую консоль:
+ПЕРЕХОД:
+
+organization/digibank/application$
+ВВОД:
+nvm i 15.0.1
+npm i
+node enrollUser.js
+ВЫВОЛ:
+Successfully enrolled client user "isabella" and imported it into the wallet
+node issue.js
+
+Открыть новую консоль:
+ПЕРЕХОД:
+
+organization/digibank/application$
+ВВОД:
+nvm i 15.0.1
+npm i
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Задание
+https://docs.google.com/document/d/1oJUy5Q8gu5i9L6uUsTFW-njdSQR8flHw_xhXAYH8yN4/edit
+Полезные ссылки
+https://habr.com/ru/company/ibm/blog/444874/
+https://kctheservant.medium.com/an-implementation-of-api-server-for-hyperledger-fabric-network-8764c79f1a87
+https://www.blockchainexpert.uk/blog/step-by-step-guide-to-install-hyperledger-in-ubuntu
+https://medium.com/coinmonks/install-and-configure-hyperledger-fabric-v1-4-on-ubuntu-18-04-3-lts-2ccbc7176887
+https://developer.mozilla.org/ru/docs/Web/API/Body/json
+https://hyperledger-fabric.readthedocs.io/en/latest/deployorderer/ordererdeploy.html?highlight=binary%20get#start-the-orderer
