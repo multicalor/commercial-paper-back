@@ -3,7 +3,7 @@ Get project.
 
 
 
-0. Prerequisites for Linux
+1. Prerequisites for Linux
 
 Install the latest version of git if it is not already installed.
 Enter the command in the terminal:
@@ -39,7 +39,7 @@ Enter the project dir and run the command in the terminal:
 
 Prerequisites COMPLETE!
 
-1. Create the network
+2. Create the network
 Get project.
 
     git clone git@github.com:multicalor/HlF.git
@@ -53,9 +53,9 @@ Enter the command in the terminal:
 Create the network COMPLETE!
 
 
-2. Deploy the smart contract to the channel.
+3. Deploy the smart contract to the channel.
 
-2. 0. Install and approve the smart contract as MagnetoCorp.
+Install and approve the smart contract as MagnetoCorp.
 
 Open new terminal from project root dir ENTER command:
 Enter the command in the terminal:
@@ -75,13 +75,11 @@ OUTPUT:
 COPY line from output after "Chaincode code package identifier: "
 an example of a copied string "cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a" (your string may be different)
 
-paste the copied line after the command "export PACKAGE_ID=" + "cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a" (your string may be different)
+paste the copied line after the command "export PACKAGE_ID=" + "cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a" 
+(your string may be different)
 
     export PACKAGE_ID=cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
 
-ENTER:
-
-    fabric-samples/commercial-paper/organization/magnetocorp$
 
 Get PACKAGE_ID
 OPTION:
@@ -94,7 +92,7 @@ SET:
 
 Deploy the smart contract to the channel COMPLETE!
 
-2. 1. Approve the chaincode definition for MagnetoCorp.
+Approve the chaincode definition for MagnetoCorp.
 ENTER:
 
     peer lifecycle chaincode approveformyorg --orderer localhost:7050 --ordererTLSHostnameOverride orderer.example.com --channelID mychannel --name papercontract -v 0 --package-id $PACKAGE_ID --sequence 1 --tls --cafile $ORDERER_CA
@@ -107,7 +105,7 @@ OUt
 Approve the chaincode definition for MagnetoCorp COMPLETE!
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-3. 0. Install chaincode for digiBank.
+Install chaincode for digiBank.
 Open new terminal from project root dir ENTER command:
 
     cd fabric-samples/commercial-paper/organization/digibank
@@ -156,7 +154,8 @@ OUT:
 COPY line from output after "Chaincode code package identifier: "
 an example of a copied string "cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a" (your string may be different)
 
-paste the copied line after the command "export PACKAGE_ID=" + "cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a" (your string may be different)
+paste the copied line after the command "export PACKAGE_ID=" + "cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a" 
+(your string may be different)
 
 ENTER:
 
@@ -169,7 +168,7 @@ OPTION:
 
 
 
-3. 1. Approve the chaincode definition for DigiBank
+Approve the chaincode definition for DigiBank
 ENTER: 
 
     fabric-samples/commercial-paper/organization/digibank$
