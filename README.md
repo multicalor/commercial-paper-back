@@ -184,6 +184,7 @@ OUT:
 Install chaincode for digiBank COMPLETE!
 
 4. Commit the chaincode definition to the channel.
+FROM path: hf/commercial-paper/organization/digibank$
 ENTER:
 
     peer lifecycle chaincode commit -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --peerAddresses localhost:7051 --tlsRootCertFiles ${PEER0_ORG1_CA} --peerAddresses localhost:9051 --tlsRootCertFiles ${PEER0_ORG2_CA} --channelID mychannel --name papercontract -v 0 --sequence 1 --tls --cafile $ORDERER_CA --waitForEvent
@@ -196,32 +197,30 @@ OUT:
 
 Commit the chaincode definition to the channel COMPLETE!
 
-5. Instale app js.
-Open new terminal from project root dir ENTER command:
+5. Install application magnetocorp.
+FROM path: hf/commercial-paper/organization/magnetocorp/application$
 ENTER:
-
-    cd fabric-samples/commercial-paper/organization/magnetocorp/application
 
 Intall npm module.
 
     nvm i 15.0.1
     npm i
 
-OPTIONS: for manual use app from terminal.
+OPTIONS: for manual use application from terminal.
 
     node enrollUser.js
     node issue.js
 
-Open new terminal from project root dir ENTER command:
+6. Install application digibank.
+Open new terminal:
+FROM: path: hf/commercial-paper/organization/digibank/application$
 ENTER:
-
-    cd fabric-samples/commercial-paper/organization/magnetocorp/application
 
     nvm i 15.0.1
     npm i
 
 
-OPTIONS: for manual use app from terminal.
+OPTIONS: for manual use application from terminal.
 
     node enrollUser.js
     node buy.js
