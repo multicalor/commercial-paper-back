@@ -39,10 +39,11 @@ Prerequisites COMPLETE!
 2. Create the network
 
 From the project root folder.
+FROM path: hf/
 Enter the command in the terminal:
 
     cd commercial-paper
-    
+    ./network-clean.sh
     ./network-starter.sh
 
 Create the network COMPLETE!
@@ -53,7 +54,8 @@ Create the network COMPLETE!
 Install and approve the smart contract as MagnetoCorp.
 
 Open new terminal from project root dir ENTER command:
-ENTER: the command in the terminal:
+FROM path: hf/commercial-paper/organization/magnetocorp$
+ENTER:
 
     cd /commercial-paper/organization/magnetocorp
 
@@ -72,12 +74,16 @@ an example of a copied string "cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520
 
 paste the copied line after the command "export PACKAGE_ID=" + "cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a" 
 (your string may be different)
+FROM path: hf/commercial-paper/organization/magnetocorp$
+ENTER:
 
     export PACKAGE_ID=cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
 
 
 Get PACKAGE_ID
 OPTION:
+FROM path: hf/commercial-paper/organization/magnetocorp$
+ENTER:
 
     peer lifecycle chaincode queryinstalled
 
@@ -88,6 +94,7 @@ SET:
 Deploy the smart contract to the channel COMPLETE!
 
 Approve the chaincode definition for MagnetoCorp.
+FROM path: hf/commercial-paper/organization/magnetocorp$
 ENTER:
 
     peer lifecycle chaincode approveformyorg --orderer localhost:7050 --ordererTLSHostnameOverride orderer.example.com --channelID mychannel --name papercontract -v 0 --package-id $PACKAGE_ID --sequence 1 --tls --cafile $ORDERER_CA
@@ -101,9 +108,10 @@ Approve the chaincode definition for MagnetoCorp COMPLETE!
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Install chaincode for digiBank.
-Open new terminal from project root dir ENTER command:
 
-    cd fabric-samples/commercial-paper/organization/digibank
+Open new terminal from project root dir ENTER command:
+FROM path: hf/commercial-paper/organization/digibank$
+ENTER:
 
     source ./digibank.sh
 
@@ -133,11 +141,10 @@ OUT:
     export PEER0_ORG2_CA="/home/prg/prg/482/fabric-samples/test-network/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt"
     export PEER0_ORG3_CA="/home/prg/prg/482/fabric-samples/test-network/organizations/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt"
 
+FROM path: hf/commercial-paper/organization/digibank$
 ENTER:
 
     peer lifecycle chaincode package cp.tar.gz --lang node --path ./contract --label cp_0
-
-    fabric-samples/commercial-paper/organization/digibank$
 
     peer lifecycle chaincode install cp.tar.gz
 
@@ -152,9 +159,10 @@ an example of a copied string "cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520
 paste the copied line after the command "export PACKAGE_ID=" + "cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a" 
 (your string may be different)
 
+FROM path: hf/commercial-paper/organization/digibank$
 ENTER:
 
-    export PACKAGE_ID=cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
+    export PACKAGE_ID=cp_0:6fe94b7c5000822dbd74ca203c2fe2c8ed0e8faab35caf3650734a7474ae766f
 
 Get PACKAGE_ID
 OPTION:
@@ -164,9 +172,8 @@ OPTION:
 
 
 Approve the chaincode definition for DigiBank
+FROM path: hf/commercial-paper/organization/digibank$
 ENTER: 
-
-    fabric-samples/commercial-paper/organization/digibank$
 
     peer lifecycle chaincode approveformyorg --orderer localhost:7050 --ordererTLSHostnameOverride orderer.example.com --channelID mychannel --name papercontract -v 0 --package-id $PACKAGE_ID --sequence 1 --tls --cafile $ORDERER_CA
 
