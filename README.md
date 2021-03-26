@@ -30,21 +30,19 @@ Open new terminal from project root dir ENTER command:
 Download binaries.
 ENTER: the project dir and run the command in the terminal:
 
-    cd hl
-    chmod +x
+    cd hf
+    chmod +x bootstrap.sh
     ./bootstrap.sh
 
 Prerequisites COMPLETE!
 
 2. Create the network
-Get project.
-
-    git clone git@github.com:multicalor/HlF.git
 
 From the project root folder.
 Enter the command in the terminal:
 
     cd commercial-paper
+    
     ./network-starter.sh
 
 Create the network COMPLETE!
