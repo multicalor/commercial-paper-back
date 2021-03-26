@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "rm -rf _idwallet && node addToWallet.js && node issue.js",
-    "serve": "nodemon index.js"
+    "serve": "nodemon server.js"
   },
   "keywords": [],
   "author": "",

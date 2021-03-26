@@ -230,10 +230,13 @@ Useful links
 
 #Commercial paper MagnetoCorp server REST API documentation.
 
+
+
 In Isabella’s terminal window, run the enrollUser.js program to add identity information to her wallet:
 
     /api/enrolluser/
-
+    
+use issue.js to submit a transaction that will issue MagnetoCorp commercial paper 00001:
     /api/issue/
 
     /api/history/
