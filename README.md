@@ -57,6 +57,8 @@ Open new terminal from project root dir ENTER command:
 FROM path: hf/commercial-paper/organization/magnetocorp$
 ENTER:
 
+    cd organization/magnetocorp
+
     source magnetocorp.sh
 
     peer lifecycle chaincode package cp.tar.gz --lang node --path ./contract --label cp_0
@@ -103,10 +105,10 @@ Approve the chaincode definition for MagnetoCorp COMPLETE!
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Install chaincode for digiBank.
 
-Open new terminal from project root dir ENTER command:
+Open NEW terminal from project root dir ENTER command:
 FROM path: hf/commercial-paper/organization/digibank$
 ENTER:
-
+    cd commercial-paper/organization/digibank
     source ./digibank.sh
 
 OUT:
