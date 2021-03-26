@@ -87,10 +87,6 @@ ENTER:
 
     peer lifecycle chaincode queryinstalled
 
-SET:
-
-    export PACKAGE_ID=cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
-
 Deploy the smart contract to the channel COMPLETE!
 
 Approve the chaincode definition for MagnetoCorp.
@@ -205,6 +201,7 @@ Intall npm module.
 
     nvm i 15.0.1
     npm i
+    npm run serve
 
 OPTIONS: for manual use application from terminal.
 
@@ -218,6 +215,7 @@ ENTER:
 
     nvm i 15.0.1
     npm i
+    npm run serve
 
 
 OPTIONS: for manual use application from terminal.
