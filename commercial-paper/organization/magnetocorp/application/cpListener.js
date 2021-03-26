@@ -1,9 +1,15 @@
 "use strict";
 
-const yaml = require('js-yaml');
-const { Wallets, Gateway } = require('fabric-network');
-const path = require("path");
-const fs = require("fs");
+import { Wallets , Gateway } from 'fabric-network';
+import fs from 'fs';
+import yaml from 'js-yaml';
+import path from 'path';
+
+
+// const yaml = require('js-yaml');
+// const { Wallets, Gateway } = require('fabric-network');
+// const path = require("path");
+// const fs = require("fs");
 
 let finished;
 async function main() {

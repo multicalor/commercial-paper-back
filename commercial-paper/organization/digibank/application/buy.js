@@ -17,10 +17,15 @@
 'use strict';
 
 // Bring key classes into scope, most importantly Fabric SDK network class
-const fs = require('fs');
-const yaml = require('js-yaml');
-const { Wallets, Gateway } = require('fabric-network');
-const CommercialPaper = require('../../magnetocorp/contract/lib/paper.js');
+import { Wallets , Gateway } from 'fabric-network';
+import fs from 'fs';
+import yaml from 'js-yaml';
+import path from 'path';
+import CommercialPaper from '../../magnetocorp/contract/lib/paper.js';
+
+
+
+// const CommercialPaper = require('../../magnetocorp/contract/lib/paper.js');
 
 
 // Main program function

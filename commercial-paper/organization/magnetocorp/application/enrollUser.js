@@ -6,11 +6,11 @@
 
 'use strict';
 
-const FabricCAServices = require('fabric-ca-client');
-const { Wallets } = require('fabric-network');
-const fs = require('fs');
-const yaml = require('js-yaml');
-const path = require('path');
+import FabricCAServices from 'fabric-ca-client';
+import { Wallets } from 'fabric-network';
+import fs from 'fs';
+import yaml from 'js-yaml';
+import path from 'path';
 
 async function main() {
     try {
