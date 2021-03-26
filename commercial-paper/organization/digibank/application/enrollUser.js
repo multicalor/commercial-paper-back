@@ -11,7 +11,7 @@ import fs from 'fs';
 import yaml from 'js-yaml';
 import path from 'path';
 
-async function main() {
+export default async function enrollUser() {
     try {
         // load the network configuration
         let connectionProfile = yaml.safeLoad(fs.readFileSync('../gateway/connection-org1.yaml', 'utf8'));
@@ -52,4 +52,4 @@ async function main() {
     }
 }
 
-main();
+

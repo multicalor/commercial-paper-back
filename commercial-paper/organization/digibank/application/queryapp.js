@@ -17,13 +17,14 @@
 'use strict';
 
 // Bring key classes into scope, most importantly Fabric SDK network class
-const fs = require('fs');
-const yaml = require('js-yaml');
-const { Wallets, Gateway } = require('fabric-network');
+
+import { Wallets , Gateway } from 'fabric-network';
+import fs from 'fs';
+import yaml from 'js-yaml';
 
 
 // Main program function
-async function main() {
+export default async function queryApp() {
 
     // A wallet stores a collection of identities for use
     const wallet = await Wallets.newFileSystemWallet('../identity/user/balaji/wallet');
@@ -141,15 +142,16 @@ async function main() {
 
     }
 }
-main().then(() => {
 
-    console.log('Queryapp program complete.');
+// main().then(() => {
 
-}).catch((e) => {
+//     console.log('Queryapp program complete.');
 
-    console.log('Queryapp program exception.');
-    console.log(e);
-    console.log(e.stack);
-    process.exit(-1);
+// }).catch((e) => {
 
-});
+//     console.log('Queryapp program exception.');
+//     console.log(e);
+//     console.log(e.stack);
+//     process.exit(-1);
+
+// });

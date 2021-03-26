@@ -12,7 +12,7 @@ import path from 'path';
 // const fs = require("fs");
 
 let finished;
-async function main() {
+export default async function history() {
     try {
         // Set up the wallet - just use Org2's wallet (isabella)
 	const wallet = await Wallets.newFileSystemWallet('../identity/user/isabella/wallet');
@@ -100,4 +100,4 @@ async function main() {
         process.exit(1);
     }
 }
-void main();
+

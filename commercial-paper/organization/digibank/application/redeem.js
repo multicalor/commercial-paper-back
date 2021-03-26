@@ -24,7 +24,7 @@ import path from 'path';
 import CommercialPaper from '../contract/lib/paper.js';
 
 // Main program function
-async function main() {
+export default async function redeem() {
 
   // A wallet stores a collection of identities for use
   const wallet = await Wallets.newFileSystemWallet('../identity/user/balaji/wallet');
@@ -92,15 +92,15 @@ async function main() {
 
   }
 }
-main().then(() => {
+// main().then(() => {
 
-  console.log('Redeem program complete.');
+//   console.log('Redeem program complete.');
 
-}).catch((e) => {
+// }).catch((e) => {
 
-  console.log('Redeem program exception.');
-  console.log(e);
-  console.log(e.stack);
-  process.exit(-1);
+//   console.log('Redeem program exception.');
+//   console.log(e);
+//   console.log(e.stack);
+//   process.exit(-1);
 
-});
+// });

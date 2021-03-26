@@ -29,7 +29,7 @@ import CommercialPaper from '../../magnetocorp/contract/lib/paper.js';
 
 
 // Main program function
-async function main () {
+export default async function buy () {
 
     // A wallet stores a collection of identities for use
     const wallet = await Wallets.newFileSystemWallet('../identity/user/balaji/wallet');
@@ -96,15 +96,15 @@ async function main () {
 
     }
 }
-main().then(() => {
+// main().then(() => {
 
-    console.log('Buy program complete.');
+//     console.log('Buy program complete.');
 
-}).catch((e) => {
+// }).catch((e) => {
 
-    console.log('Buy program exception.');
-    console.log(e);
-    console.log(e.stack);
-    process.exit(-1);
+//     console.log('Buy program exception.');
+//     console.log(e);
+//     console.log(e.stack);
+//     process.exit(-1);
 
-});
+// });

@@ -2,34 +2,41 @@ import express from "express";
 import bodyParser from "body-parser";
 // import { buildCAClient, registerAndEnrollUser, enrollAdmin } from './CAUtil.js'
 import enrollUser from './enrollUser.js'
+import buy from './buy.js'
+import redeem from './redeem.js'
+import queryApp from './queryapp.js'
 
-const PORT = process.env.PORT ?? 3001;
-let credential;
+
+
+const PORT = process.env.PORT ?? 3002;
 
 const app = express();
 
 app.use(bodyParser());
 
-app.post('/api/enrolladmin', (req, res) =>{
-    let data = req.body;
-    console.log(data);
-    res.end('ok');
-    // enrollAdmin(data.name)
-});
-
 app.post('/api/enrolluser', (req, res) =>{
     let data = req.body;
     console.log(data);
     res.end('ok');
-    enrollUser(data.name).then(credentials => {
+    enrollUser();
+});
 
-        console.log(credentials)
-    })
-    
-}
-)
-// Про регистрацию админа
-// https://hyperledger-fabric.readthedocs.io/en/latest/write_first_app.html#first-the-application-enrolls-the-admin-user
+app.post('/api/buy', (req, res) =>{
+    buy()
+    res.end('ok');
+});
+
+app.post('/api/redeem', (req, res) =>{
+    redeem()
+    res.end('ok');
+});
+
+app.post('/api/queryapp', (req, res) => {  
+    let data = req.body;
+    console.log(data);
+    queryApp();
+    res.end('ok');
+});
 
 app.listen(PORT, () => {
     console.log(`Example app listening at http://localhost:${PORT}`);
