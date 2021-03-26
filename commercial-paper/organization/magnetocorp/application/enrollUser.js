@@ -46,6 +46,7 @@ export default async function enrollUser() {
         };
         await wallet.put('isabella', x509Identity);
         console.log('Successfully enrolled client user "isabella" and imported it into the wallet');
+        return 'isabella'
 
     } catch (error) {
         console.error(`Failed to enroll client user "isabella": ${error}`);

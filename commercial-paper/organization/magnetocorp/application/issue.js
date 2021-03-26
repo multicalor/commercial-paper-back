@@ -21,7 +21,6 @@
 import { Wallets , Gateway } from 'fabric-network';
 import fs from 'fs';
 import yaml from 'js-yaml';
-import path from 'path';
 import CommercialPaper from '../contract/lib/paper.js';
 
 // Main program function
@@ -77,6 +76,7 @@ export default async function issue() {
 
         console.log(`${paper.issuer} commercial paper : ${paper.paperNumber} successfully issued for value ${paper.faceValue}`);
         console.log('Transaction complete.');
+        return `${paper.issuer} commercial paper : ${paper.paperNumber} successfully issued for value ${paper.faceValue}`
 
     } catch (error) {
 
