@@ -57,8 +57,6 @@ Open new terminal from project root dir ENTER command:
 FROM path: hf/commercial-paper/organization/magnetocorp$
 ENTER:
 
-    cd /commercial-paper/organization/magnetocorp
-
     source magnetocorp.sh
 
     peer lifecycle chaincode package cp.tar.gz --lang node --path ./contract --label cp_0
@@ -227,6 +225,30 @@ OPTIONS: for manual use application from terminal.
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Useful links
+
+#Commercial paper MagnetoCorp server REST API documentation.
+
+In Isabella’s terminal window, run the enrollUser.js program to add identity information to her wallet:
+
+    /api/enrolluser/
+
+    /api/issue/
+
+    /api/history/
+
+#Commercial paper DigiBank server REST API documentation.
+
+
+
+    /api/enrolluser/
+
+
+
+    /api/buy/
+
+    /api/redeem/
+
+    /api/queryapp/
 
 https://docs.google.com/document/d/1oJUy5Q8gu5i9L6uUsTFW-njdSQR8flHw_xhXAYH8yN4/edit
 Полезные ссылки
