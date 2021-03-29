@@ -122,5 +122,6 @@ CA_BINARY_FILE=hyperledger-fabric-ca-${ARCH}-${CA_VERSION}.tar.gz
 echo
 echo "Pull Hyperledger Fabric binaries"
 echo
+sudo apt-get install build-essential
 pullBinaries
 pullDockerImages
