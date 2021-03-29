@@ -18,17 +18,20 @@
 
 // Bring key classes into scope, most importantly Fabric SDK network class
 
-import { Wallets , Gateway } from 'fabric-network';
-import fs from 'fs';
-import yaml from 'js-yaml';
-import CommercialPaper from '../contract/lib/paper.js';
+const fs = require('fs');
+const yaml = require('js-yaml');
+const { Wallets, Gateway } = require('fabric-network');
+const CommercialPaper = require('../contract/lib/paper.js');
+// const { MSPID_SCOPE_SINGLE } = require('fabric-network/lib/impl/query/defaultqueryhandlerstrategies');
+
+let name = 'user2'
 
 // Main program function
-export default async function issue() {
+async function issue(name) {
 
     // A wallet stores a collection of identities for use
     const wallet = await Wallets.newFileSystemWallet('../identity/user/isabella/wallet');
-
+    console.log(wallet)
     // A gateway defines the peers used to access Fabric networks
     const gateway = new Gateway();
 
@@ -37,18 +40,18 @@ export default async function issue() {
 
         // Specify userName for network access
         // const userName = 'isabella.issuer@magnetocorp.com';
-        const userName = 'isabella';
-
+        const userName = name;
+        // wallet.get('admin').then(data => console.log(data))
         // Load connection profile; will be used to locate a gateway
         let connectionProfile = yaml.safeLoad(fs.readFileSync('../gateway/connection-org2.yaml', 'utf8'));
-
+        // console.log(connectionProfile);
         // Set connection options; identity and wallet
         let connectionOptions = {
             identity: userName,
             wallet: wallet,
             discovery: { enabled:true, asLocalhost: true }
         };
-
+        // console.log(connectionOptions);
         // Connect to gateway using application specified parameters
         console.log('Connect to Fabric gateway.');
 
@@ -59,7 +62,7 @@ export default async function issue() {
 
         const network = await gateway.getNetwork('mychannel');
 
-        // Get addressability to commercial paper contract
+    //     // Get addressability to commercial paper contract
         console.log('Use org.papernet.commercialpaper smart contract.');
 
         const contract = await network.getContract('papercontract');
@@ -91,6 +94,12 @@ export default async function issue() {
 
     }
 }
+
+
+issue(name);
+// exports.module.issue =
+// exports.module.issue = issue;
+
 // main().then(() => {
 
 //     console.log('Issue program complete.');
