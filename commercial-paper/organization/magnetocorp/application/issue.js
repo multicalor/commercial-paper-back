@@ -24,14 +24,16 @@ const { Wallets, Gateway } = require('fabric-network');
 const CommercialPaper = require('../contract/lib/paper.js');
 // const { MSPID_SCOPE_SINGLE } = require('fabric-network/lib/impl/query/defaultqueryhandlerstrategies');
 
-let name = 'user2'
 
+
+// 'issue', 'MagnetoCorp', '00001', '2020-05-31', '2020-11-30', '5000000'
+// { name, paperNumber, org, releaseDate, redeemDate, cost } 
 // Main program function
-async function issue(name) {
+module.exports = async function issue(userName, paperNumber, org, releaseDate, redeemDate, cost) {
 
     // A wallet stores a collection of identities for use
-    const wallet = await Wallets.newFileSystemWallet('../identity/user/isabella/wallet');
-    console.log(wallet)
+    const wallet = await Wallets.newFileSystemWallet(`../identity/user/isabella/wallet`);
+    // console.log(wallet.providerRegistry.providers)
     // A gateway defines the peers used to access Fabric networks
     const gateway = new Gateway();
 
@@ -40,18 +42,17 @@ async function issue(name) {
 
         // Specify userName for network access
         // const userName = 'isabella.issuer@magnetocorp.com';
-        const userName = name;
-        // wallet.get('admin').then(data => console.log(data))
+        
         // Load connection profile; will be used to locate a gateway
         let connectionProfile = yaml.safeLoad(fs.readFileSync('../gateway/connection-org2.yaml', 'utf8'));
-        // console.log(connectionProfile);
+
         // Set connection options; identity and wallet
         let connectionOptions = {
             identity: userName,
             wallet: wallet,
             discovery: { enabled:true, asLocalhost: true }
         };
-        // console.log(connectionOptions);
+        // console.log(connectionOptions)
         // Connect to gateway using application specified parameters
         console.log('Connect to Fabric gateway.');
 
@@ -62,7 +63,7 @@ async function issue(name) {
 
         const network = await gateway.getNetwork('mychannel');
 
-    //     // Get addressability to commercial paper contract
+        // Get addressability to commercial paper contract
         console.log('Use org.papernet.commercialpaper smart contract.');
 
         const contract = await network.getContract('papercontract');
@@ -70,7 +71,7 @@ async function issue(name) {
         // issue commercial paper
         console.log('Submit commercial paper issue transaction.');
 
-        const issueResponse = await contract.submitTransaction('issue', 'MagnetoCorp', '00001', '2020-05-31', '2020-11-30', '5000000');
+        const issueResponse = await contract.submitTransaction('issue', org, paperNumber, releaseDate, redeemDate, cost);
 
         // process response
         console.log('Process issue transaction response.'+issueResponse);
@@ -79,8 +80,8 @@ async function issue(name) {
 
         console.log(`${paper.issuer} commercial paper : ${paper.paperNumber} successfully issued for value ${paper.faceValue}`);
         console.log('Transaction complete.');
-        return `${paper.issuer} commercial paper : ${paper.paperNumber} successfully issued for value ${paper.faceValue}`
 
+        return paper.issuer
     } catch (error) {
 
         console.log(`Error processing transaction. ${error}`);
@@ -96,8 +97,7 @@ async function issue(name) {
 }
 
 
-issue(name);
-// exports.module.issue =
+// issue(name)
 // exports.module.issue = issue;
 
 // main().then(() => {

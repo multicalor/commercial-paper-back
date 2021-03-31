@@ -17,13 +17,12 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 const path = require('path');
 
-const user = 'user2'
-const userPass = 'SdZgLqyjBfQD';
-const admin = 'admin';
-const adminPass = 'adminpw'
 
+module.exports = async function enrollUser() {
+  let name = 'admin';
+  let admin = 'admin'
+  let adminPass = 'adminpw'
 
-async function enrollUser(user, userPass, admin, adminPass) {
   try {
     // load the network configuration
     let connectionProfile = yaml.safeLoad(
@@ -44,25 +43,24 @@ async function enrollUser(user, userPass, admin, adminPass) {
     // Create a new file system based wallet for managing identities.
     const walletPath = path.join(
       process.cwd(),
-      "../identity/user/isabella/wallet"
+      `../identity/user/isabella/wallet`
     );
+    
     const wallet = await Wallets.newFileSystemWallet(walletPath);
     console.log(`Wallet path: ${walletPath}`);
 
     //Check to see if we've already enrolled the admin user.
-    const userExists = await wallet.get(user);
+    const userExists = await wallet.get(name);
     if (userExists) {
       console.log(
-        `An identity for the client user ${user} already exists in the wallet`
+        `An identity for the client user ${name} already exists in the wallet`
       );
       return;
     }
 
     // Enroll the admin user, and import the new identity into the wallet.
-    const enrollment = await ca.enroll({
-      enrollmentID: admin,
-      enrollmentSecret: adminPass,
-    });
+    
+    const enrollment = await ca.enroll({ enrollmentID: admin, enrollmentSecret: adminPass });
     const x509Identity = {
       credentials: {
         certificate: enrollment.certificate,
@@ -71,15 +69,23 @@ async function enrollUser(user, userPass, admin, adminPass) {
       mspId: "Org2MSP",
       type: "X.509",
     };
-    await wallet.put(user, x509Identity);
+    await wallet.put(name, x509Identity);
     console.log(
-      `Successfully enrolled client user ${user} and imported it into the wallet`
+      `Successfully enrolled client user ${name} and imported it into the wallet`
     );
-    // return (x509Identity);
+
+    fs.writeFile(`certificates/${name}.pem`, x509Identity.credentials.certificate, function (err,data) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log(data);
+    });
+
+    return x509Identity.credentials.certificate;
+
   } catch (error) {
-    console.error(`Failed to enroll client user ${user}: ${error}`);
+    console.error(`Failed to enroll client user ${name}: ${error}`);
     process.exit(1);
   }
 }
 
-enrollUser(user, userPass, admin, adminPass)
