@@ -21,7 +21,7 @@
 const fs = require('fs');
 const yaml = require('js-yaml');
 const { Wallets, Gateway } = require('fabric-network');
-const CommercialPaper = require('../contract/lib/paper.js');
+const CommercialPaper = require('../contract/lib/paper.js'); //../contract/lib/paper.js
 
 
 
@@ -29,10 +29,22 @@ const CommercialPaper = require('../contract/lib/paper.js');
 // 'issue', 'MagnetoCorp', '00001', '2020-05-31', '2020-11-30', '5000000'
 // { name, paperNumber, org, releaseDate, redeemDate, cost } 
 // Main program function
-module.exports = async function issue(userName, certificate, paperNumber, org, releaseDate, redeemDate, cost) {
-
+module.exports = async function issue(userName, certificate, paperNumber, company, releaseDate, redeemDate, cost) {
+    let companyIndex;
+    switch(company) {
+      case 'magnetocorp':
+        companyIndex = '2';
+      break;
+  
+      case 'digibank':
+        companyIndex = '1';
+      break;
+  
+      default:
+        console.log('Invalid company name.')
+    }
     // A wallet stores a collection of identities for use
-    const wallet = await Wallets.newFileSystemWallet(`./identity/magnetocorp/users/wallet`);
+    const wallet = await Wallets.newFileSystemWallet(`./identity/${company}/users/wallet`);
     console.log(wallet)
     // A gateway defines the peers used to access Fabric networks
     const gateway = new Gateway();
@@ -42,10 +54,10 @@ module.exports = async function issue(userName, certificate, paperNumber, org, r
 
         // Specify userName for network access
         // const userName = 'isabella.issuer@magnetocorp.com';
-        
+        console.log('------------->')
         // Load connection profile; will be used to locate a gateway
-        let connectionProfile = yaml.safeLoad(fs.readFileSync('./gateway/connection-org2.yaml', 'utf8'));
-
+        let connectionProfile = yaml.safeLoad(fs.readFileSync(`./gateway/connection-org${companyIndex}.yaml`, `utf8`));//${companyIndex}
+        console.log('------------->')
         // Set connection options; identity and wallet
         let connectionOptions = {
             identity: userName,
@@ -71,7 +83,7 @@ module.exports = async function issue(userName, certificate, paperNumber, org, r
         // issue commercial paper
         console.log('Submit commercial paper issue transaction.');
 
-        const issueResponse = await contract.submitTransaction('issue', org, paperNumber, releaseDate, redeemDate, cost);
+        const issueResponse = await contract.submitTransaction('issue', company, paperNumber, releaseDate, redeemDate, cost);
 
         // process response
         console.log('Process issue transaction response.'+issueResponse);
