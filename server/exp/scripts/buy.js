@@ -20,17 +20,31 @@ const { Wallets, Gateway  } = require('fabric-network');
 const fs = require('fs');
 const yaml = require('js-yaml');
 const path = require('path');
-const CommercialPaper = require('../../magnetocorp/contract/lib/paper.js');
+const CommercialPaper = require('../contract/lib/paper.js');
 // Bring key classes into scope, most importantly Fabric SDK network class
 
 // const CommercialPaper = require('../../magnetocorp/contract/lib/paper.js');
-let userName = 'Oleg7';
+// 'buy', 'MagnetoCorp', '00001', 'MagnetoCorp', 'DigiBank', '4900000', '2020-05-31'
+
 
 // Main program function
-async function buy (userName) {
+module.exports = async function buy (userName, company) {
+    let companyIndex;
 
+    switch(company) {
+      case 'magnetocorp':
+        companyIndex = '2';
+      break;
+  
+      case 'digibank':
+        companyIndex = '1';
+      break;
+  
+      default:
+        console.log('Invalid company name.')
+    }
     // A wallet stores a collection of identities for use
-    const wallet = await Wallets.newFileSystemWallet('../identity/user/balaji/wallet');
+    const wallet = await Wallets.newFileSystemWallet(`./identity/${company}/users/wallet`);
     console.log(wallet)
 
     // A gateway defines the peers used to access Fabric networks
@@ -43,7 +57,7 @@ async function buy (userName) {
 
 
         // Load connection profile; will be used to locate a gateway
-        let connectionProfile = yaml.safeLoad(fs.readFileSync('../gateway/connection-org1.yaml', 'utf8'));
+        let connectionProfile = yaml.safeLoad(fs.readFileSync(`./gateway/connection-org${companyIndex}.yaml`, 'utf8'));
 
         // Set connection options; identity and wallet
         let connectionOptions = {
@@ -95,15 +109,15 @@ async function buy (userName) {
     }
 }
 
-buy(userName).then(() => {
+// buy(userName).then(() => {
 
-    console.log('Buy program complete.');
+//     console.log('Buy program complete.');
 
-}).catch((e) => {
+// }).catch((e) => {
 
-    console.log('Buy program exception.');
-    console.log(e);
-    console.log(e.stack);
-    process.exit(-1);
+//     console.log('Buy program exception.');
+//     console.log(e);
+//     console.log(e.stack);
+//     process.exit(-1);
 
-});
+// });

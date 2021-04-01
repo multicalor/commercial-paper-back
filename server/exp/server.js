@@ -1,9 +1,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+
 const enrollAdmin = require("./scripts/enrollAdmin");
+const issue = require("./scripts/issue.js");
+const buy = require("./scripts/buy.js");
+const history = require("./scripts/history.js");
 // const enrollUser = require("./scripts/enrollAdmin");
-// const issue = require("./issue.js");
+
 // const history = require("./cpListener.js");
+
+
 const registerUser = require("./scripts/registerUser");
 
 const PORT = process.env.PORT || 3001;
@@ -32,6 +38,38 @@ app.post("/api/registeruser", (req, res) => {
     });
   });
 
+  app.post("/api/issue", (req, res) => {
+  
+  const { name, certificate, paperNumber, company, releaseDate, redeemDate, cost } = req.body;
+  console.log(req.body);
+  issue(name, certificate, paperNumber, company, releaseDate, redeemDate, cost)
+  .then(data => {
+      console.log('test+++++++++', data)
+      res.send(data)
+  });
+});
+
+app.post("/api/buy", (req, res) => {
+  
+  const { name, company } = req.body;
+  console.log(req.body);
+  buy( name, company )
+  .then(data => {
+      console.log('test+++++++++', data)
+      res.send(data)
+  });
+});
+
+app.post("/api/history", (req, res) => {
+  
+  const { name, company } = req.body;
+  console.log(req.body);
+  history( name, company )
+  .then(data => {
+      console.log('test+++++++++', data)
+      res.send(data)
+  });
+});
 
 // app.get("/api/enrolluser", (req, res) => {
 //   const { name, admin, adminPass } = req.body;
@@ -42,16 +80,7 @@ app.post("/api/registeruser", (req, res) => {
 // });
 
 
-// app.post("/api/issue", (req, res) => {
-  
-//   const { name, certificate, paperNumber, org, releaseDate, redeemDate, cost } = req.body;
-//   console.log(req.body);
-//   issue(name, certificate, paperNumber, org, releaseDate, redeemDate, cost)
-//   .then(data => {
-//       console.log('test+++++++++', data)
-//       res.send(data)
-//   });
-// });
+
 
 // app.post("/api/history", (req, res) => {
 //   let data = req.body;

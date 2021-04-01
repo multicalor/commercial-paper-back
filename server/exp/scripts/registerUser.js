@@ -83,7 +83,7 @@ module.exports = async function registerUser(name, company) {
             // attrs?: IKeyValueAttribute[];
         }, adminUser);
         console.log(secret)
-        
+
         const enrollment = await ca.enroll({
             enrollmentID: name,
             enrollmentSecret: secret
@@ -100,7 +100,7 @@ module.exports = async function registerUser(name, company) {
         console.log(name , wallet.put(name, x509Identity))
         console.log(`Successfully registered and enrolled admin user ${name} and imported it into the wallet`);
 
-        fs.writeFile(`certificates/${name}.pem`, x509Identity.credentials.certificate, function (err,data) {
+        fs.writeFile(`certificates/${company}/${name}.pem`, x509Identity.credentials.certificate, function (err,data) {
         if (err) {
               return console.log(err);
             }

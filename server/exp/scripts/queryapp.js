@@ -23,13 +23,13 @@ const { Wallets, Gateway } = require('fabric-network');
 const fs = require('fs');
 const yaml = require('js-yaml');
 
-const userName = 'Oleg7';
+// const userName = 'Oleg7';
 
 // Main program function
-async function queryApp(userName) {
+module.exports = async function queryApp(userName) {
 
     // A wallet stores a collection of identities for use
-    const wallet = await Wallets.newFileSystemWallet('../identity/user/balaji/wallet');
+    const wallet = await Wallets.newFileSystemWallet(`./identity/${company}/users/wallet`);
 
 
     // A gateway defines the peers used to access Fabric networks
@@ -146,7 +146,7 @@ async function queryApp(userName) {
 }
 
 
-queryApp(userName)
+// queryApp(userName)
 // main().then(() => {
 
 //     console.log('Queryapp program complete.');
