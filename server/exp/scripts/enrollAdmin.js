@@ -23,6 +23,7 @@ module.exports = async function enrollAdmin(company) {
   let admin = 'admin';
   let adminPass = 'adminpw';
   let companyIndex;
+
   switch(company) {
     case 'magnetocorp':
       companyIndex = '2';
@@ -35,7 +36,7 @@ module.exports = async function enrollAdmin(company) {
     default:
       console.log('Invalid company name.')
   }
-  // try {
+  try {
     // load the network configuration
     let connectionProfile = yaml.safeLoad(
       fs.readFileSync(`./gateway/connection-org${companyIndex}.yaml`, "utf8")
@@ -91,7 +92,7 @@ module.exports = async function enrollAdmin(company) {
       `Successfully enrolled client user ${name} and imported it into the wallet`
     );
 
-    fs.writeFile(`certificates/${name}.pem`, x509Identity.credentials.certificate, function (err,data) {
+    fs.writeFile(`certificates/${company}/${name}.pem`, x509Identity.credentials.certificate, function (err,data) {
       if (err) {
         return console.log(err);
       }
@@ -102,9 +103,9 @@ module.exports = async function enrollAdmin(company) {
 
   
 
-  // } catch (error) {
-  //   console.error(`Failed to enroll client ${name}: ${error}`);
-  //   process.exit(1);
-  // }
+  } catch (error) {
+    console.error(`Failed to enroll client ${name}: ${error}`);
+    process.exit(1);
+  }
 }
 
