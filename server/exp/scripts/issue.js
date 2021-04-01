@@ -22,7 +22,7 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 const { Wallets, Gateway } = require('fabric-network');
 const CommercialPaper = require('../contract/lib/paper.js');
-// const { MSPID_SCOPE_SINGLE } = require('fabric-network/lib/impl/query/defaultqueryhandlerstrategies');
+
 
 
 
@@ -32,8 +32,8 @@ const CommercialPaper = require('../contract/lib/paper.js');
 module.exports = async function issue(userName, certificate, paperNumber, org, releaseDate, redeemDate, cost) {
 
     // A wallet stores a collection of identities for use
-    const wallet = await Wallets.newFileSystemWallet(`../identity/user/isabella/wallet`);
-    // console.log(wallet.providerRegistry.providers)
+    const wallet = await Wallets.newFileSystemWallet(`./identity/magnetocorp/users/wallet`);
+    console.log(wallet)
     // A gateway defines the peers used to access Fabric networks
     const gateway = new Gateway();
 
@@ -44,7 +44,7 @@ module.exports = async function issue(userName, certificate, paperNumber, org, r
         // const userName = 'isabella.issuer@magnetocorp.com';
         
         // Load connection profile; will be used to locate a gateway
-        let connectionProfile = yaml.safeLoad(fs.readFileSync('../gateway/connection-org2.yaml', 'utf8'));
+        let connectionProfile = yaml.safeLoad(fs.readFileSync('./gateway/connection-org2.yaml', 'utf8'));
 
         // Set connection options; identity and wallet
         let connectionOptions = {
