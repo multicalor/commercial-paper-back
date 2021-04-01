@@ -60,7 +60,7 @@ module.exports = async function enrollAdmin(company) {
     // Create a new file system based wallet for managing identities.
     const walletPath = path.join(
       process.cwd(),
-      `./identity/user/${admin}/wallet`
+      `./identity/${company}/user/${admin}/wallet`
     );
     
     const wallet = await Wallets.newFileSystemWallet(walletPath);
