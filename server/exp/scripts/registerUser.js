@@ -13,26 +13,42 @@ const path = require('path');
 
 
 
-module.exports = async function registerUser(name, adminPem) {
+module.exports = async function registerUser(name, company) {
+
+    let admin = 'admin';
+    let adminPass = 'adminpw';
+    let companyIndex;
+
+    switch(company) {
+        case 'magnetocorp':
+          companyIndex = '2';
+        break;
+    
+        case 'digibank':
+          companyIndex = '1';
+        break;
+    
+        default:
+          console.log('Invalid company name.')
+      }
     
     try {
         
         // load the network configuration
         // const ccpPath = path.resolve(__dirname, '..', '..', 'test-network', 'organizations', 'peerOrganizations', 'org1.example.com', 'connection-org1.json');
-        const ccpPath = path.resolve(__dirname, '..', '..', '..', '..', 'test-network', 'organizations', 'peerOrganizations', 'org2.example.com', 'connection-org2.json');
+        const ccpPath = path.resolve(__dirname, '..', 'connection' , `connection-org${companyIndex}.json`);
         const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
         console.log(ccp)
 
         // Create a new CA client for interacting with the CA.
-        const caURL = ccp.certificateAuthorities['ca.org2.example.com'].url;
-        console.log('+++++++++++++++++++++++++++++++++++++++++++', caURL)
+        const caURL = ccp.certificateAuthorities[`ca.org${companyIndex}.example.com`].url;
         const ca = new FabricCAServices(caURL);
 
         // Create a new file system based wallet for managing identities.
-        const walletPath = path.join(process.cwd(), '..', 'identity','user',`isabella`, 'wallet');
-        // const walletPath = path.join(process.cwd(), 'wallet');
+        const walletPath = path.join(process.cwd(), 'identity', `${company}`, 'users', 'wallet');
+
         const wallet = await Wallets.newFileSystemWallet(walletPath);
-        console.log(`Wallet path: ${walletPath}`);
+        // console.log(`Wallet path: ${walletPath}`);
 
         // Check to see if we've already enrolled the user.
         const userIdentity = await wallet.get(name);
@@ -56,7 +72,7 @@ module.exports = async function registerUser(name, adminPem) {
         // console.log(adminIdentity);
         // Register the user, enroll the user, and import the new identity into the wallet.
         const secret = await ca.register({
-            affiliation: 'org2.department1',
+            affiliation: `org${companyIndex}.department1`,
             enrollmentID: name,
             role: 'client',
             // enrollmentID: string;
@@ -67,6 +83,7 @@ module.exports = async function registerUser(name, adminPem) {
             // attrs?: IKeyValueAttribute[];
         }, adminUser);
         console.log(secret)
+        
         const enrollment = await ca.enroll({
             enrollmentID: name,
             enrollmentSecret: secret
@@ -76,7 +93,7 @@ module.exports = async function registerUser(name, adminPem) {
                 certificate: enrollment.certificate,
                 privateKey: enrollment.key.toBytes(),
             },
-            mspId: 'Org2MSP',
+            mspId: `Org${companyIndex}MSP`,
             type: 'X.509',
         };
         // await wallet.put(name, x509Identity);
@@ -90,7 +107,7 @@ module.exports = async function registerUser(name, adminPem) {
             console.log(data);
         });
       
-        return {certificate: x509Identity, password: secret, name: name };
+        return {x509Identity: x509Identity, password: secret, name: name };
     } catch (error) {
         console.error(`Failed to register user ${name}: ${error}`);
         process.exit(1);
