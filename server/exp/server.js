@@ -1,11 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+var cors = require('cors')
+
 
 const enrollAdmin = require("./scripts/enrollAdmin");
 const issue = require("./scripts/issue.js");
 const buy = require("./scripts/buy.js");
-const history = require("./scripts/history.js");
-// const enrollUser = require("./scripts/enrollAdmin");
+const queryApp = require("./scripts/queryapp.js");
+const redeem = require("./scripts/redeem.js");
 
 // const history = require("./cpListener.js");
 
@@ -15,7 +17,7 @@ const registerUser = require("./scripts/registerUser");
 const PORT = process.env.PORT || 3001;
 
 const app = express();
-
+app.use(cors())
 app.use(bodyParser());
 
 app.post("/api/enrolladmin", (req, res) => {
@@ -31,7 +33,7 @@ app.post("/api/enrolladmin", (req, res) => {
 
 app.post("/api/registeruser", (req, res) => {
     const { name, company } = req.body;
-    console.log(name, company);
+    console.log(name, company );
     registerUser( name, company ).then((data) => {
       console.log(data);
       res.json(data);
@@ -40,9 +42,9 @@ app.post("/api/registeruser", (req, res) => {
 
   app.post("/api/issue", (req, res) => {
   
-  const { name, certificate, paperNumber, company, releaseDate, redeemDate, cost } = req.body;
+  const { name, x509Identity, paperNumber, company, releaseDate, redeemDate, cost } = req.body;
   console.log(req.body);
-  issue(name, certificate, paperNumber, company, releaseDate, redeemDate, cost)
+  issue(name, x509Identity, paperNumber, company, releaseDate, redeemDate, cost)
   .then(data => {
       console.log('test+++++++++', data)
       res.send(data)
@@ -51,9 +53,20 @@ app.post("/api/registeruser", (req, res) => {
 
 app.post("/api/buy", (req, res) => {
   
-  const { name, company } = req.body;
+  const { name, company, x509Identity } = req.body;
   console.log(req.body);
-  buy( name, company )
+  buy( name, company, x509Identity )
+  .then(data => {
+      console.log('test+++++++++', data)
+      res.send(data)
+  });
+});
+
+app.post("/api/redeem", (req, res) => {
+  
+  const { name, company, x509Identity } = req.body;
+  console.log(req.body);
+  redeem( name, company, x509Identity )
   .then(data => {
       console.log('test+++++++++', data)
       res.send(data)
@@ -62,34 +75,15 @@ app.post("/api/buy", (req, res) => {
 
 app.post("/api/history", (req, res) => {
   
-  const { name, company } = req.body;
-  console.log(req.body);
-  history( name, company )
+  const { name, company, x509Identity } = req.body;
+  console.log(x509Identity.credentials);
+  queryApp( name, company, x509Identity )
   .then(data => {
       console.log('test+++++++++', data)
       res.send(data)
   });
 });
 
-// app.get("/api/enrolluser", (req, res) => {
-//   const { name, admin, adminPass } = req.body;
-//   enrollUser(name, admin, adminPass).then((data) => {
-//     console.log(data);
-//     res.json(data);
-//   });
-// });
-
-
-
-
-// app.post("/api/history", (req, res) => {
-//   let data = req.body;
-//   console.log(data);
-//   history();
-//   // .then(data => {
-//   //     res.json(data);
-//   // });
-// });
 
 app.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`);

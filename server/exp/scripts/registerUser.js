@@ -53,8 +53,8 @@ module.exports = async function registerUser(name, company) {
         // Check to see if we've already enrolled the user.
         const userIdentity = await wallet.get(name);
         if (userIdentity) {
-            console.log(`An identity for the user ${name} already exists in the wallet`);
-            return;
+            return {"error": `An identity for the user ${name} already exists in the wallet`};
+            
         }
 
         // Check to see if we've already enrolled the admin user.

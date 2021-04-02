@@ -28,7 +28,7 @@ const CommercialPaper = require('../contract/lib/paper.js');
 
 
 // Main program function
-module.exports = async function buy (userName, company) {
+module.exports = async function buy (userName, company, x509Identity) {
     let companyIndex;
 
     switch(company) {
@@ -86,6 +86,15 @@ module.exports = async function buy (userName, company) {
         console.log('Submit commercial paper buy transaction.');
 
         const buyResponse = await contract.submitTransaction('buy', 'MagnetoCorp', '00001', 'MagnetoCorp', 'DigiBank', '4900000', '2020-05-31');
+        // readonly chaincodeId: string;
+        // readonly namespace: string;
+        // createTransaction(name: string): Transaction;
+        // evaluateTransaction(name: string, ...args: string[]): Promise<Buffer>;
+        // submitTransaction(name: string, ...args: string[]): Promise<Buffer>;
+        // addContractListener(listener: ContractListener, options?: ListenerOptions): Promise<ContractListener>;
+        // removeContractListener(listener: ContractListener): void;
+        // addDiscoveryInterest(interest: DiscoveryInterest): Contract;
+        // resetDiscoveryInterests(): Contract;
 
         // process response
         console.log('Process buy transaction response.');
@@ -94,7 +103,7 @@ module.exports = async function buy (userName, company) {
 
         console.log(`${paper.issuer} commercial paper : ${paper.paperNumber} successfully purchased by ${paper.owner}`);
         console.log('Transaction complete.');
-
+        return paper;
     } catch (error) {
 
         console.log(`Error processing transaction. ${error}`);

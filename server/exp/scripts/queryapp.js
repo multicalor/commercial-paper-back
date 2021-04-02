@@ -26,7 +26,23 @@ const yaml = require('js-yaml');
 // const userName = 'Oleg7';
 
 // Main program function
-module.exports = async function queryApp(userName) {
+module.exports = async function queryApp(userName, company, x509Identity) {
+    console.log(x509Identity)
+    
+    let companyIndex;
+
+    switch(company) {
+        case 'magnetocorp':
+          companyIndex = '2';
+        break;
+    
+        case 'digibank':
+          companyIndex = '1';
+        break;
+    
+        default:
+          console.log('Invalid company name.')
+      }
 
     // A wallet stores a collection of identities for use
     const wallet = await Wallets.newFileSystemWallet(`./identity/${company}/users/wallet`);
@@ -42,7 +58,7 @@ module.exports = async function queryApp(userName) {
         
 
         // Load connection profile; will be used to locate a gateway
-        let connectionProfile = yaml.safeLoad(fs.readFileSync('../gateway/connection-org1.yaml', 'utf8'));
+        let connectionProfile = yaml.safeLoad(fs.readFileSync(`./gateway/connection-org${companyIndex}.yaml`, 'utf8'));
 
         // Set connection options; identity and wallet
         let connectionOptions = {

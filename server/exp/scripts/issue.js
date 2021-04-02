@@ -29,9 +29,9 @@ const CommercialPaper = require('../contract/lib/paper.js'); //../contract/lib/p
 // 'issue', 'MagnetoCorp', '00001', '2020-05-31', '2020-11-30', '5000000'
 // { name, paperNumber, org, releaseDate, redeemDate, cost } 
 // Main program function
-module.exports = async function issue(userName, certificate, paperNumber, company, releaseDate, redeemDate, cost) {
+module.exports = async function issue(userName, x509Identity, paperNumber, company, releaseDate, redeemDate, cost) {
     let companyIndex;
-    switch(company) {
+    switch(company.toLowerCase()) {
       case 'magnetocorp':
         companyIndex = '2';
       break;
@@ -44,7 +44,7 @@ module.exports = async function issue(userName, certificate, paperNumber, compan
         console.log('Invalid company name.')
     }
     // A wallet stores a collection of identities for use
-    const wallet = await Wallets.newFileSystemWallet(`./identity/${company}/users/wallet`);
+    const wallet = await Wallets.newFileSystemWallet(`./identity/${company.toLowerCase()}/users/wallet`);
     console.log(wallet)
     // A gateway defines the peers used to access Fabric networks
     const gateway = new Gateway();

@@ -25,13 +25,26 @@ const path = require('path');
 const CommercialPaper = require('../contract/lib/paper.js');
 
 
-let userName = 'Oleg7';
 
 // Main program function
-async function redeem(userName) {
+module.exports = async function redeem(userName, company, x509Identity) {
+
+  let companyIndex;
+  switch(company) {
+    case 'magnetocorp':
+      companyIndex = '2';
+    break;
+
+    case 'digibank':
+      companyIndex = '1';
+    break;
+
+    default:
+      console.log('Invalid company name.')
+  }
 
   // A wallet stores a collection of identities for use
-  const wallet = await Wallets.newFileSystemWallet('../identity/user/balaji/wallet');
+  const wallet = await Wallets.newFileSystemWallet(`./identity/${company}/users/wallet`);
 
 
   // A gateway defines the peers used to access Fabric networks
@@ -45,7 +58,8 @@ async function redeem(userName) {
 
 
     // Load connection profile; will be used to locate a gateway
-    let connectionProfile = yaml.safeLoad(fs.readFileSync('../gateway/connection-org1.yaml', 'utf8'));
+    // let connectionProfile = yaml.safeLoad(fs.readFileSync(`./gateway/connection-org${companyIndex}.yaml`, 'utf8'));
+    let connectionProfile = yaml.safeLoad(fs.readFileSync(`./gateway/connection-org${companyIndex}.yaml`, 'utf8'));
 
     // Set connection options; identity and wallet
     let connectionOptions = {
@@ -96,15 +110,15 @@ async function redeem(userName) {
 
   }
 }
-redeem(userName).then(() => {
+// redeem(userName).then(() => {
 
-  console.log('Redeem program complete.');
+//   console.log('Redeem program complete.');
 
-}).catch((e) => {
+// }).catch((e) => {
 
-  console.log('Redeem program exception.');
-  console.log(e);
-  console.log(e.stack);
-  process.exit(-1);
+//   console.log('Redeem program exception.');
+//   console.log(e);
+//   console.log(e.stack);
+//   process.exit(-1);
 
-});
+// });
