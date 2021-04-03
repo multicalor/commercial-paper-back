@@ -1,0 +1,1 @@
+// module.exports = const mspIdList = ['Org1MSP', 'Org2MSP'];

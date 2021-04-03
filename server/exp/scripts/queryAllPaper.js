@@ -26,7 +26,7 @@ const yaml = require('js-yaml');
 // const userName = 'Oleg7';
 
 // Main program function
-module.exports = async function queryApp(userName, company, peper , x509Identity) {
+module.exports = async function queryApp(userName, company) {
     console.log(company)
     
     let companyIndex;
@@ -92,10 +92,10 @@ module.exports = async function queryApp(userName, company, peper , x509Identity
 
         // console.log('1. Query Commercial Paper History....');
         // console.log('-----------------------------------------------------------------------------------------\n');
-        let queryResponse = await contract.evaluateTransaction('queryHistory', 'MagnetoCorp', peper);
-        let json = JSON.parse(queryResponse.toString());
-        console.log(json);
-        return json;
+        // let queryResponse = await contract.evaluateTransaction('queryHistory', 'MagnetoCorp', peper);
+        // let json = JSON.parse(queryResponse.toString());
+        // console.log(json);
+        // return json;
 
         // let json = JSON.parse(queryResponse.toString());
         // console.log(json);
@@ -104,15 +104,15 @@ module.exports = async function queryApp(userName, company, peper , x509Identity
         // console.log('-----------------------------------------------------------------------------------------\n\n');
 
         // 2 ownership query
-        // console.log('2. Query Commercial Paper Ownership.... Papers owned by MagnetoCorp');
-        // console.log('-----------------------------------------------------------------------------------------\n');
-        // let queryResponseMagnetocorp = await contract.evaluateTransaction('queryOwner', 'magnetocorp');
-        // let queryResponseDigibank = await contract.evaluateTransaction('queryOwner', 'DigiBank');
-        // console.log('fdfdfdfdfdf', queryResponseDigibank.toString())
+        console.log('2. Query Commercial Paper Ownership.... Papers owned by MagnetoCorp');
+        console.log('-----------------------------------------------------------------------------------------\n');
+        let queryResponseMagnetocorp = await contract.evaluateTransaction('queryOwner', 'MagnetoCorp');
+        let queryResponseDigibank = await contract.evaluateTransaction('queryOwner', 'DigiBank');
+        console.log('fdfdfdfdfdf', queryResponseDigibank.toString())
 
-        // // json = JSON.parse(queryResponseMagnetocorp, ...queryResponseDigibank].toString());
-        // // console.log(json);
-        // // return json
+        let json = JSON.parse(queryResponseMagnetocorp.toString());
+        console.log(json);
+        return json
         // return JSON.parse(queryResponseMagnetocorp.toString())//JSON.parse
         // console.log('\n\n');
         // console.log('\n  Paper Ownership query complete.');
@@ -147,17 +147,18 @@ module.exports = async function queryApp(userName, company, peper , x509Identity
         // console.log('-----------------------------------------------------------------------------------------\n\n');
 
 
-        // // 5 named query - by value
+        // 5 named query - by value
         // console.log('5. Named Query:.... All papers in org.papernet.papers with faceValue > 4000000');
         // console.log('-----------------------------------------------------------------------------------------\n');
         // let queryResponse5 = await contract.evaluateTransaction('queryNamed', 'value');
 
-        // json = JSON.parse(queryResponse5.toString());
+        // let json = JSON.parse(queryResponse5.toString());
         // console.log(json);
         // console.log('\n\n');
 
         // console.log('\n  Named query by "value" complete.');
         // console.log('-----------------------------------------------------------------------------------------\n\n');
+        
 
         
 

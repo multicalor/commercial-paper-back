@@ -45,7 +45,6 @@ module.exports = async function buy (userName, company, x509Identity) {
     }
     // A wallet stores a collection of identities for use
     const wallet = await Wallets.newFileSystemWallet(`./identity/${company}/users/wallet`);
-    console.log(wallet)
 
     // A gateway defines the peers used to access Fabric networks
     const gateway = new Gateway();
@@ -85,7 +84,7 @@ module.exports = async function buy (userName, company, x509Identity) {
         // buy commercial paper
         console.log('Submit commercial paper buy transaction.');
 
-        const buyResponse = await contract.submitTransaction('buy', 'MagnetoCorp', '00001', 'MagnetoCorp', 'DigiBank', '4900000', '2020-05-31');
+        const buyResponse = await contract.submitTransaction('buy', 'magnetocorp', '00001', 'magnetocorp', 'DigiBank', '4900000', '2020-05-31');
         // readonly chaincodeId: string;
         // readonly namespace: string;
         // createTransaction(name: string): Transaction;

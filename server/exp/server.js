@@ -8,7 +8,8 @@ const issue = require("./scripts/issue.js");
 const buy = require("./scripts/buy.js");
 const queryApp = require("./scripts/queryapp.js");
 const redeem = require("./scripts/redeem.js");
-
+const queryAllPaper = require("./scripts/queryAllPaper.js");
+const wallets = require('./scripts/myScripst/inMemoryWallet')
 // const history = require("./cpListener.js");
 
 
@@ -75,15 +76,24 @@ app.post("/api/redeem", (req, res) => {
 
 app.post("/api/history", (req, res) => {
   
-  const { name, company, x509Identity } = req.body;
-  console.log(x509Identity.credentials);
-  queryApp( name, company, x509Identity )
+  const { name, company, paper, x509Identity } = req.body;
+  console.log(x509Identity);
+  queryApp( name, company, paper, x509Identity )
   .then(data => {
       console.log('test+++++++++', data)
       res.send(data)
   });
 });
 
+app.get("/api/historyall", (req, res) => {
+  
+  const { name, company } = req.body;
+  queryAllPaper( name, company )
+  .then(data => {
+      console.log('test+++++++++', data)
+      res.send(data)
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`);

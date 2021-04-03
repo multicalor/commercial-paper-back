@@ -5,8 +5,9 @@
  */
 
 'use strict';
-
-const { Wallets } = require('fabric-network');
+// const wallet = require("./inMemoryWallet");
+// const { Wallets } = require('fabric-network');
+const { Gateway, InMemoryWallet, X509WalletMixin } = require ('fabric-network');
 const FabricCAServices = require('fabric-ca-client');
 const fs = require('fs');
 const path = require('path');
@@ -45,9 +46,10 @@ module.exports = async function registerUser(name, company) {
         const ca = new FabricCAServices(caURL);
 
         // Create a new file system based wallet for managing identities.
-        const walletPath = path.join(process.cwd(), 'identity', `${company}`, 'users', 'wallet');
+        // const walletPath = path.join(process.cwd(), 'identity', `${company}`, 'users', 'wallet');
 
-        const wallet = await Wallets.newFileSystemWallet(walletPath);
+        // const wallet = await Wallets.newFileSystemWallet(walletPath);
+        // const wallet = await Wallets.newInMemoryWallet();
         // console.log(`Wallet path: ${walletPath}`);
 
         // Check to see if we've already enrolled the user.

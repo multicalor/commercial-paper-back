@@ -18,7 +18,7 @@ const yaml = require('js-yaml');
 const path = require('path');
 
 
-module.exports = async function enrollAdmin(company) {
+module.exports = async function enrollAdmin(company, wallet) {
   let name = 'admin';
   let admin = 'admin';
   let adminPass = 'adminpw';
@@ -48,9 +48,6 @@ module.exports = async function enrollAdmin(company) {
 
     const caTLSCACerts = caInfo.tlsCACerts.pem; //;orgPem
 
-    
-
-    
     console.log()
     const ca = new FabricCAServices(
       caInfo.url,
@@ -64,8 +61,9 @@ module.exports = async function enrollAdmin(company) {
       `./identity/${company}/users/wallet`
     );
     
-    const wallet = await Wallets.newFileSystemWallet(walletPath);
-    console.log(`Wallet path: ${walletPath}`);
+    // const wallet = await Wallets.newFileSystemWallet(walletPath);
+    const wallet = await Wallets.newInMemoryWallet();
+    console.log(`Wallet path: ${wallet}`);
 
     //Check to see if we've already enrolled the admin user.
     const userExists = await wallet.get(name);
