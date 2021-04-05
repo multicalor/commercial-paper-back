@@ -4,7 +4,12 @@ const fs = require ('fs');
 const path = require ('path');
 const yaml = require ('js-yaml');
 
-module.exports = function getConnectedProfile (mspid) {
+module.exports = function getConnectedProfile (company) {
+
+    let mspid = {
+        magnetocorp:'Org2MSP',
+        digibank: 'Org1MSP'
+    };
 
   try {
 
@@ -12,15 +17,18 @@ module.exports = function getConnectedProfile (mspid) {
     let connectionProfile;
     let caInfo;
     let caTLSCACerts;
+    let mspid = mspid[company];
 
     switch(mspid) {
+
         case 'Org1MSP':
           // load the network configuration
           ccpPath = path.resolve('../../gateway/connection-org1.yaml'); //myScripst
           connectionProfile = yaml.safeLoad(fs.readFileSync(ccpPath , 'utf8'));
           caInfo = connectionProfile.certificateAuthorities['ca.org1.example.com']
           caTLSCACerts = caInfo.tlsCACerts.pem;
-          return {connectionProfile, caInfo, caTLSCACerts}
+          const ca = new FabricCAServices(caInfo.url)
+          return {connectionProfile, ca, caTLSCACerts, mspid}
         break;
     
         case 'Org2MSP':
@@ -29,7 +37,7 @@ module.exports = function getConnectedProfile (mspid) {
           connectionProfile = yaml.safeLoad(fs.readFileSync(ccpPath , 'utf8'));
           caInfo = connectionProfile.certificateAuthorities['ca.org2.example.com']
           caTLSCACerts = caInfo.tlsCACerts.pem;
-          return {connectionProfile, caInfo, caTLSCACerts}
+          return {connectionProfile, ca, caTLSCACerts}
         break;
     
         default:

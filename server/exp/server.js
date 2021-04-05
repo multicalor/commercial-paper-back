@@ -1,7 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-var cors = require('cors')
-
+var cors = require('cors');
 
 const enrollAdmin = require("./scripts/enrollAdmin");
 const issue = require("./scripts/issue.js");
@@ -9,7 +8,7 @@ const buy = require("./scripts/buy.js");
 const queryApp = require("./scripts/queryapp.js");
 const redeem = require("./scripts/redeem.js");
 const queryAllPaper = require("./scripts/queryAllPaper.js");
-const wallets = require('./scripts/myScripst/inMemoryWallet')
+// const wallets = require('./scripts/myScripst/inMemoryWallet')
 // const history = require("./cpListener.js");
 
 

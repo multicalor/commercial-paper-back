@@ -2,11 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require('cors')
 
-
-const wallet = require('./walletsStore')
-
-const enrollAdmin = require("./enrollAdmin");
-// const registerUser = require("./registerUser");
+const registerUser = require("./registerUser");
 // const issue = require("./scripts/issue.js");
 // const buy = require("./scripts/buy.js");
 // const queryApp = require("./scripts/queryapp.js");
@@ -24,25 +20,15 @@ const app = express();
 app.use(cors())
 app.use(bodyParser());
 
-app.post("/api/enrolladmin", (req, res) => {
 
-    const { company } = req.body;
-    console.log(company)
-    enrollAdmin(company, wallet).then((data) => {
+app.post("/api/registeruser", (req, res) => {
+    const { name, company } = req.body;
+    console.log(name, company );
+    registerUser( name, company ).then((data) => {
       console.log(data);
       res.json(data);
     });
-
-});
-
-// app.post("/api/registeruser", (req, res) => {
-//     const { name, company } = req.body;
-//     console.log(name, company );
-//     registerUser( name, company ).then((data) => {
-//       console.log(data);
-//       res.json(data);
-//     });
-//   });
+  });
 
 //   app.post("/api/issue", (req, res) => {
   

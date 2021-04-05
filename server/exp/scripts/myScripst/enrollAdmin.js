@@ -1,16 +1,11 @@
 
 "use strict";
 
-// const FabricCAServices = require('fabric-ca-client');
 const { Gateway, X509WalletMixin, InMemoryWallet } = require('fabric-network');
-// const getConnectedProfile = require('./utils')
-// const mspIdList = require('./constants')
-
-// const wallet = require('./walletsStore')
-
 
 
 module.exports = async function enrollAdmin(mspid, ca, connectionProfile) {
+  
   const admin = 'admin';
   const adminPass = 'adminpw';
   
