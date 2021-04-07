@@ -13,13 +13,14 @@ module.exports = async function issue(
   redeemDate,
   cost
 ) {
+
+  let gateway;
+  let paper;
     try {
     let {org, name} = pemParse(certificate);
    
-    // let name = 'nikolay15@digibank.com';
-    // let org = 'org2'
     let company;
- console.log('------------>',org, name)
+ 
     
     switch (org) {
         case "org1":
@@ -33,22 +34,24 @@ module.exports = async function issue(
         default:
           return { error: "Invalid company mspid." };
       }
+
+      console.log('------------>',company)
   const { connectionProfile, ca, mspid } = getConnectedProfile(company);
   
-  const gateway = await enrollAdmin(mspid, ca, connectionProfile, admin='admin', adminPass='adminpw')
+  // gateway = await enrollAdmin(mspid, ca, connectionProfile, admin='admin', adminPass='adminpw')
 
   // const { connectionProfile, mspid } = getConnectedProfile(company);
   // const gateway = await enrollAdmin(mspid, ca, connectionProfile, 'admin', 'adminpw');
-  // const gateway = await authentication(
-  //   certificate,
-  //   privateKey,
-  //   mspid,
-  //   connectionProfile,
-  //   name
-  // );
+   gateway = await authentication(
+    certificate,
+    privateKey,
+    mspid,
+    connectionProfile,
+    name
+  );
   // console.log('1========1')
 
-    console.log('------------>',gateway)
+    // console.log('------------>',gateway)
   
     const network = await gateway.getNetwork("mychannel");
     console.log('2========2')
@@ -69,14 +72,14 @@ module.exports = async function issue(
     // process response
     console.log("Process issue transaction response." + issueResponse);
 
-    let paper = CommercialPaper.fromBuffer(issueResponse);
+    paper = CommercialPaper.fromBuffer(issueResponse);
 
     console.log(
       `${paper.issuer} commercial paper : ${paper.paperNumber} successfully issued for value ${paper.faceValue}`
     );
     console.log("Transaction complete.");
 
-    return paper;
+    
   } catch (error) {
     console.log(`Error processing transaction. ${error}`);
     console.log(error.stack);
@@ -84,6 +87,7 @@ module.exports = async function issue(
     // Disconnect from the gateway
     console.log("Disconnect from Fabric gateway.");
     gateway.disconnect();
+    return paper;
   }
 };
 

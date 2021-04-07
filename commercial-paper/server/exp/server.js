@@ -45,9 +45,17 @@ app.post("/api/registeruser", (req, res) => {
 
 app.post("/api/issue", (req, res) => {
   
-  const { certificate, privateKey, paperNumber, company, releaseDate, redeemDate, cost } = req.body;
-  console.log(req.body);
-  issue(certificate, privateKey, paperNumber, company, releaseDate, redeemDate, cost)
+  const { certificate, privateKey, paperNumber, releaseDate, redeemDate, cost } = req.body;
+  // console.log(req.body);
+  // issue(
+  //   certificate,
+  //   privateKey,
+  //   paperNumber,
+  //   releaseDate,
+  //   redeemDate,
+  //   cost
+  // )
+  issue(certificate, privateKey, paperNumber, releaseDate, redeemDate, cost)
   .then(data => {
       console.log('test+++++++++', data)
       res.send(data)

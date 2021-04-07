@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #cd hf
+docker image prune -a
 chmod +x bootstrap.sh
 ./bootstrap.sh
 cd commercial-paper
