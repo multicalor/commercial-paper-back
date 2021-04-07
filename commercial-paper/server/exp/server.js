@@ -9,7 +9,7 @@ const {login} = require("./scripts/myScripts/utils/login");
 const issue = require("./scripts/myScripts/issue.js");
 const buy = require("./scripts/myScripts/buy.js");
 // const queryApp = require("./scripts/queryapp.js");
-// const redeem = require("./scripts/redeem.js");
+const redeem = require("./scripts/myScripts/redeem.js");
 // const queryAllPaper = require("./scripts/queryAllPaper.js");
 
 // const wallets = require('./scripts/myScripst/inMemoryWallet')
@@ -71,9 +71,9 @@ app.post("/api/buy", (req, res) => {
 
 app.post("/api/redeem", (req, res) => {
   
-  const { name, company, x509Identity } = req.body;
+  const { certificate, privateKey } = req.body;
   console.log(req.body);
-  redeem( name, company, x509Identity )
+  redeem( certificate, privateKey )
   .then(data => {
       console.log('test+++++++++', data)
       res.send(data)

@@ -17,61 +17,17 @@
 'use strict';
 
 // Bring key classes into scope, most importantly Fabric SDK network class
-const FabricCAServices = require('fabric-ca-client');
-const { Wallets, Gateway  } = require('fabric-network');
-const fs = require('fs');
-const yaml = require('js-yaml');
-const path = require('path');
-const CommercialPaper = require('../contract/lib/paper.js');
 
+const CommercialPaper = require('../../contract/lib/paper.js');
+const { login } = require("./utils/login.js");
 
 
 // Main program function
-module.exports = async function redeem(userName, company, x509Identity) {
+module.exports = async function redeem(certificate, privateKey) {
 
-  let companyIndex;
-  switch(company) {
-    case 'magnetocorp':
-      companyIndex = '2';
-    break;
+ try{
 
-    case 'digibank':
-      companyIndex = '1';
-    break;
-
-    default:
-      console.log('Invalid company name.')
-  }
-
-  // A wallet stores a collection of identities for use
-  const wallet = await Wallets.newFileSystemWallet(`./identity/${company}/users/wallet`);
-
-
-  // A gateway defines the peers used to access Fabric networks
-  const gateway = new Gateway();
-
-  // Main try/catch block
-  try {
-
-    // Specify userName for network access
-        // Specify userName for network access
-
-
-    // Load connection profile; will be used to locate a gateway
-    // let connectionProfile = yaml.safeLoad(fs.readFileSync(`./gateway/connection-org${companyIndex}.yaml`, 'utf8'));
-    let connectionProfile = yaml.safeLoad(fs.readFileSync(`./gateway/connection-org${companyIndex}.yaml`, 'utf8'));
-
-    // Set connection options; identity and wallet
-    let connectionOptions = {
-      identity: userName,
-      wallet: wallet,
-      discovery: { enabled:true, asLocalhost: true }
-    };
-
-    // Connect to gateway using application specified parameters
-    console.log('Connect to Fabric gateway.');
-
-    await gateway.connect(connectionProfile, connectionOptions);
+  const { gateway, company, name } = await login(certificate, privateKey);
 
     // Access PaperNet network
     console.log('Use network channel: mychannel.');
@@ -86,7 +42,7 @@ module.exports = async function redeem(userName, company, x509Identity) {
     // redeem commercial paper
     console.log('Submit commercial paper redeem transaction.');
 
-    const redeemResponse = await contract.submitTransaction('redeem', 'MagnetoCorp', '00001', 'DigiBank', 'Org2MSP', '2020-11-30');
+    const redeemResponse = await contract.submitTransaction('redeem', 'magnetocorp', '00002', 'digibank', 'Org2MSP', '2020-11-30');
 
     // process response
     console.log('Process redeem transaction response.');
@@ -96,7 +52,8 @@ module.exports = async function redeem(userName, company, x509Identity) {
     console.log(`${paper.issuer} commercial paper : ${paper.paperNumber} successfully redeemed with ${paper.owner}`);
 
     console.log('Transaction complete.');
-
+    gateway.disconnect();
+    return paper
   } catch (error) {
 
     console.log(`Error processing transaction. ${error}`);
@@ -106,7 +63,7 @@ module.exports = async function redeem(userName, company, x509Identity) {
 
     // Disconnect from the gateway
     console.log('Disconnect from Fabric gateway.')
-    gateway.disconnect();
+   
 
   }
 }

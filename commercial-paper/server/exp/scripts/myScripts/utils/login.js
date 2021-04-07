@@ -15,7 +15,7 @@ module.exports.login = async function login(certificate, privateKey) {
       name
     );
 
-    // const network = await gateway.getNetwork("mychannel");
+      console.log(gateway)
 
     return { gateway, company, name };
   } catch (error) {
