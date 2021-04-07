@@ -1,10 +1,9 @@
 "use strict";
-
+// const { getConnectedProfile, pemParse } = require("./index.js");
 const { Gateway, X509WalletMixin, InMemoryWallet } = require("fabric-network");
 
 
 module.exports.authentication = async function authentication(
-  
   certificate,
   privateKey,
   mspid,
@@ -31,12 +30,13 @@ module.exports.authentication = async function authentication(
 };
 
 module.exports.enrollment = async function enrollment(ca, mspid, user,  pass, label) {
-  console.log('------------------------->', user,  pass )
+
   const enrollment = await ca.enroll({
     enrollmentID: user,
     enrollmentSecret: pass,
+    //csr:csr
   });
-  console.log('------------------------->', user,  pass )
+
   const identity = {
     label,
     certificate: enrollment.certificate,
@@ -47,3 +47,4 @@ module.exports.enrollment = async function enrollment(ca, mspid, user,  pass, la
   console.log( identity.certificate, identity.privateKey)
   return identity;
 };
+

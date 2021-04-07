@@ -4,13 +4,13 @@ var cors = require('cors')
 
 
 // const enrollAdmin = require("./scripts/enrollAdmin");registerUser
-const registerUser = require("./scripts/myScripst/registerUser");
-const login = require("./scripts/myScripst/login");
-const issue = require("./scripts/myScripst/issue.js");
-const buy = require("./scripts/buy.js");
-const queryApp = require("./scripts/queryapp.js");
-const redeem = require("./scripts/redeem.js");
-const queryAllPaper = require("./scripts/queryAllPaper.js");
+const registerUser = require("./scripts/myScripts/registerUser");
+const {login} = require("./scripts/myScripts/utils/login");
+const issue = require("./scripts/myScripts/issue.js");
+const buy = require("./scripts/myScripts/buy.js");
+// const queryApp = require("./scripts/queryapp.js");
+// const redeem = require("./scripts/redeem.js");
+// const queryAllPaper = require("./scripts/queryAllPaper.js");
 
 // const wallets = require('./scripts/myScripst/inMemoryWallet')
 // const history = require("./cpListener.js");
@@ -35,10 +35,10 @@ app.post("/api/registeruser", (req, res) => {
 
   app.post("/api/login", (req, res) => {
     const {certificate, privateKey } = req.body;
-    console.log(req.body)
+    // console.log(req.body)
     login(certificate, privateKey).then((data) => {
       console.log(data);
-      res.json(data);
+      res.send({name: data.name, company: data.company});
     });
   });
 
@@ -46,15 +46,7 @@ app.post("/api/registeruser", (req, res) => {
 app.post("/api/issue", (req, res) => {
   
   const { certificate, privateKey, paperNumber, releaseDate, redeemDate, cost } = req.body;
-  // console.log(req.body);
-  // issue(
-  //   certificate,
-  //   privateKey,
-  //   paperNumber,
-  //   releaseDate,
-  //   redeemDate,
-  //   cost
-  // )
+
   issue(certificate, privateKey, paperNumber, releaseDate, redeemDate, cost)
   .then(data => {
       console.log('test+++++++++', data)
@@ -64,11 +56,12 @@ app.post("/api/issue", (req, res) => {
 
 
 
+
 app.post("/api/buy", (req, res) => {
   
-  const { name, company, x509Identity } = req.body;
+  const { certificate, privateKey } = req.body;
   console.log(req.body);
-  buy( name, company, x509Identity )
+  buy(  certificate, privateKey )
   .then(data => {
       console.log('test+++++++++', data)
       res.send(data)

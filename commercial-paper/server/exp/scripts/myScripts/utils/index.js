@@ -3,13 +3,10 @@ const FabricCAServices = require("fabric-ca-client");
 const fs = require("fs");
 const path = require("path");
 const yaml = require("js-yaml");
-const { X509 } = require('jsrsasign');
-var rsu = require('jsrsasign-util');
-
-
+const { X509 } = require("jsrsasign");
+var rsu = require("jsrsasign-util");
 
 module.exports.getConnectedProfile = function getConnectedProfile(company) {
-  
   try {
     let mspId = {
       magnetocorp: "Org2MSP",
@@ -29,8 +26,7 @@ module.exports.getConnectedProfile = function getConnectedProfile(company) {
         ccpPath = path.resolve("../exp/gateway/connection-org1.yaml");
 
         connectionProfile = yaml.safeLoad(fs.readFileSync(ccpPath, "utf8"));
-        caInfo =
-          connectionProfile.certificateAuthorities["ca.org1.example.com"];
+        caInfo = connectionProfile.certificateAuthorities["ca.org1.example.com"];
         caTLSCACerts = caInfo.tlsCACerts.pem;
         ca = new FabricCAServices(caInfo.url);
         return { connectionProfile, ca, caTLSCACerts, mspid };
@@ -40,8 +36,7 @@ module.exports.getConnectedProfile = function getConnectedProfile(company) {
         // load the network configuration
         ccpPath = path.resolve("../exp/gateway/connection-org2.yaml");
         connectionProfile = yaml.safeLoad(fs.readFileSync(ccpPath, "utf8"));
-        caInfo =
-          connectionProfile.certificateAuthorities["ca.org2.example.com"];
+        caInfo = connectionProfile.certificateAuthorities["ca.org2.example.com"];
         caTLSCACerts = caInfo.tlsCACerts.pem;
         ca = new FabricCAServices(caInfo.url);
         return { connectionProfile, ca, caTLSCACerts, mspid };
@@ -60,13 +55,25 @@ module.exports.pemParse = function pemParse(pemStr) {
   // console.log(pemStr)
   let c = new X509();
   c.readCertPEM(pemStr);
-  console.log('ffffffffffffffffffff')
-  let data   = c.getSubjectString(); 
-  console.log('ffffffffffffffffffff')
-  // /OU=client+OU=org2+OU=department1/CN=NeLolKek
-    let org = data.slice(data.indexOf('org'), data.indexOf('org')+4)
-    let name = data.split(/[=|+|\n]/).reverse()[0]
 
-  return {org, name};
+  let data = c.getSubjectString();
+  console.log(data)
+  let org = data.slice(data.indexOf("org"), data.indexOf("org") + 4);
+  let name = data.split(/[=|+|\n]/).reverse()[0];
+  let company;
+
+  switch (org) {
+    case "org1":
+      company = "digibank";
+      break;
+
+    case "org2":
+      company = "magnetocorp";
+      break;
+
+    default:
+      return { error: "Invalid company mspid." };
+  }
+
+  return { company, name };
 };
-
