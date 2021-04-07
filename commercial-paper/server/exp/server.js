@@ -5,21 +5,22 @@ var cors = require('cors')
 
 // const enrollAdmin = require("./scripts/enrollAdmin");registerUser
 const registerUser = require("./scripts/myScripst/registerUser");
+const login = require("./scripts/myScripst/login");
 const issue = require("./scripts/myScripst/issue.js");
 const buy = require("./scripts/buy.js");
 const queryApp = require("./scripts/queryapp.js");
 const redeem = require("./scripts/redeem.js");
 const queryAllPaper = require("./scripts/queryAllPaper.js");
+
 // const wallets = require('./scripts/myScripst/inMemoryWallet')
 // const history = require("./cpListener.js");
 
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 app.use(cors())
 app.use(bodyParser());
-
 
 app.post("/api/registeruser", (req, res) => {
     const { name, company } = req.body;
@@ -30,16 +31,30 @@ app.post("/api/registeruser", (req, res) => {
     });
   });
 
-  app.post("/api/issue", (req, res) => {
+
+
+  app.post("/api/login", (req, res) => {
+    const {certificate, privateKey } = req.body;
+    console.log(req.body)
+    login(certificate, privateKey).then((data) => {
+      console.log(data);
+      res.json(data);
+    });
+  });
+
+
+app.post("/api/issue", (req, res) => {
   
-  const { name, certificate, paperNumber, company, releaseDate, redeemDate, cost } = req.body;
-  // console.log(req.body);
-  issue(name, certificate, paperNumber, company, releaseDate, redeemDate, cost)
+  const { certificate, privateKey, paperNumber, company, releaseDate, redeemDate, cost } = req.body;
+  console.log(req.body);
+  issue(certificate, privateKey, paperNumber, company, releaseDate, redeemDate, cost)
   .then(data => {
       console.log('test+++++++++', data)
       res.send(data)
   });
 });
+
+
 
 app.post("/api/buy", (req, res) => {
   
@@ -51,6 +66,7 @@ app.post("/api/buy", (req, res) => {
       res.send(data)
   });
 });
+
 
 app.post("/api/redeem", (req, res) => {
   

@@ -26,23 +26,24 @@ module.exports.authentication = async function authentication(
   const gateway = new Gateway();
   
   await gateway.connect(connectionProfile, connectionOptions);
-
+  
   return gateway;
 };
 
-module.exports.enrollment = async function enrollment(ca, mspid, admin,  adminPass) {
-
+module.exports.enrollment = async function enrollment(ca, mspid, user,  pass, label) {
+  console.log('------------------------->', user,  pass )
   const enrollment = await ca.enroll({
-    enrollmentID: admin,
-    enrollmentSecret: adminPass,
+    enrollmentID: user,
+    enrollmentSecret: pass,
   });
-
+  console.log('------------------------->', user,  pass )
   const identity = {
-    label: admin+mspid,
+    label,
     certificate: enrollment.certificate,
     privateKey: enrollment.key.toBytes(),
     mspId: mspid,
   };
-  
+
+  console.log( identity.certificate, identity.privateKey)
   return identity;
 };

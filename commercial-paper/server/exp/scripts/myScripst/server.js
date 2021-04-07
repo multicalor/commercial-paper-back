@@ -24,7 +24,7 @@ app.use(bodyParser());
 
 app.post("/api/registeruser", (req, res) => {
     const { name, company } = req.body;
-    // console.log(name, company );
+    
     registerUser( name, company ).then((data) => {
       console.log(data);
       res.json(data);

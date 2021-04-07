@@ -1,85 +1,57 @@
-/*
- * Copyright IBM Corp. All Rights Reserved.
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/*
- * This application has 6 basic steps:
- * 1. Select an identity from a wallet
- * 2. Connect to network gateway
- * 3. Access PaperNet network
- * 4. Construct request to issue commercial paper
- * 5. Submit transaction
- * 6. Process response
- */
-
-"use strict";
-
-// Bring key classes into scope, most importantly Fabric SDK network class
-
-const fs = require("fs");
-const yaml = require("js-yaml");
-const { Wallets, Gateway } = require("fabric-network");
-// const pki = require('node-forge').pki;
-// const { spawn } = require('child_process');
-// const child = spawn('openssl', ['x509', '-subject', '-noout']);
-
-// const certPem = fs.readFileSync('./certificates/Nikolay2.pem')
-// child.stdin.write(certPem);
-
-// let data = '';
-// child.stdout.setEncoding('utf-8');
-// child.stdout.on('data', (chunk) => {
-//     console.log(chunk)
-//     data += chunk
-// });
-
-// child.on('close', () => {
-//     console.log(typeof data)
-//     let org = data.slice(data.indexOf('org'), data.indexOf('org')+4)
-//     let name = data.split(/[ |=|+|\n]/).reverse()[1]
-
-//     console.log(org, name.length)
-// });
-
-// child.stdin.end();
-
 const CommercialPaper = require("../../contract/lib/paper.js");
-const { authentication, enrollment } = require("./utils/auth");
+const { authentication } = require("./utils/auth");
 const { getConnectedProfile, pemParse } = require("./utils");
-
+const enrollAdmin = require('./enrollAdmin')
+// const { getConnectedProfile } = require('./utils')
 // 'issue', 'MagnetoCorp', '00001', '2020-05-31', '2020-11-30', '5000000'
-// { name, paperNumber, org, releaseDate, redeemDate, cost }
-// Main program function
+
 module.exports = async function issue(
-  userName,
   certificate,
+  privateKey,
   paperNumber,
-  company,
   releaseDate,
   redeemDate,
   cost
 ) {
-  let test = pemParse(certificate); //const { org, name }
-  console.log('---->', test);
-  const { connectionProfile, mspid } = getConnectedProfile(company);
+    try {
+    let {org, name} = pemParse(certificate);
+   
+    // let name = 'nikolay15@digibank.com';
+    // let org = 'org2'
+    let company;
+ console.log('------------>',org, name)
+    
+    switch (org) {
+        case "org1":
+            company  = 'digibank'
+          break;
+  
+        case "org2":
+            company  = 'magnetocorp'
+          break;
+  
+        default:
+          return { error: "Invalid company mspid." };
+      }
+  const { connectionProfile, ca, mspid } = getConnectedProfile(company);
+  
+  const gateway = await enrollAdmin(mspid, ca, connectionProfile, admin='admin', adminPass='adminpw')
 
-  // const org = connectionProfile.client.organization.toLowerCase();
+  // const { connectionProfile, mspid } = getConnectedProfile(company);
+  // const gateway = await enrollAdmin(mspid, ca, connectionProfile, 'admin', 'adminpw');
+  // const gateway = await authentication(
+  //   certificate,
+  //   privateKey,
+  //   mspid,
+  //   connectionProfile,
+  //   name
+  // );
+  // console.log('1========1')
 
-  const gateway = await authentication(
-    certificate,
-    privateKey,
-    mspid,
-    connectionProfile,
-    userName + mspid
-  );
-
-  // const gateway = await enrollAdmin(mspid, ca, connectionProfile, userName, userPass);
-
-  try {
+    console.log('------------>',gateway)
+  
     const network = await gateway.getNetwork("mychannel");
-
+    console.log('2========2')
     const contract = await network.getContract("papercontract");
 
     // issue commercial paper
@@ -115,6 +87,10 @@ module.exports = async function issue(
   }
 };
 
+
+// 'issue', 'MagnetoCorp', '00001', '2020-05-31', '2020-11-30', '5000000'
+// { name, paperNumber, org, releaseDate, redeemDate, cost }
+// Main program function
 // issue(name)
 // exports.module.issue = issue;
 
