@@ -22,7 +22,7 @@ module.exports = async function buy (certificate, privateKey) {
         const contract = await network.getContract('papercontract', 'org.papernet.commercialpaper');
 
         console.log('Submit commercial paper buy transaction.');
-
+                                                            // buy(ctx, issuer, paperNumber, currentOwner, newOwner, price, purchaseDateTime
         const buyResponse = await contract.submitTransaction('buy', 'magnetocorp', '00002', 'magnetocorp', company, '4900000', '2020-05-31');
         // readonly chaincodeId: string;
         // readonly namespace: string;

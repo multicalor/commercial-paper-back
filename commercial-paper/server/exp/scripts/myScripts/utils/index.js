@@ -52,12 +52,12 @@ module.exports.getConnectedProfile = function getConnectedProfile(company) {
 };
 
 module.exports.pemParse = function pemParse(pemStr) {
-  // console.log(pemStr)
+  
   let c = new X509();
   c.readCertPEM(pemStr);
 
   let data = c.getSubjectString();
-  console.log(data)
+  
   let org = data.slice(data.indexOf("org"), data.indexOf("org") + 4);
   let name = data.split(/[=|+|\n]/).reverse()[0];
   let company;

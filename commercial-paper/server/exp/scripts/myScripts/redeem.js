@@ -1,23 +1,3 @@
-/*
- * Copyright IBM Corp. All Rights Reserved.
- *
- * SPDX-License-Identifier: Apache-2.0
-*/
-
-/*
- * This application has 6 basic steps:
- * 1. Select an identity from a wallet
- * 2. Connect to network gateway
- * 3. Access PaperNet network
- * 4. Construct request to issue commercial paper
- * 5. Submit transaction
- * 6. Process response
- */
-
-'use strict';
-
-// Bring key classes into scope, most importantly Fabric SDK network class
-
 const CommercialPaper = require('../../contract/lib/paper.js');
 const { login } = require("./utils/login.js");
 

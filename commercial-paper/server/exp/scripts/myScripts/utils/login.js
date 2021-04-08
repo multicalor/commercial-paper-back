@@ -15,8 +15,6 @@ module.exports.login = async function login(certificate, privateKey) {
       name
     );
 
-      console.log(gateway)
-
     return { gateway, company, name };
   } catch (error) {
     console.log(`Error processing transaction. ${error}`);

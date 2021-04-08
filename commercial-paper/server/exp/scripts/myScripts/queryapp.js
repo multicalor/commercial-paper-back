@@ -1,80 +1,14 @@
-/*
- * Copyright IBM Corp. All Rights Reserved.
- *
- * SPDX-License-Identifier: Apache-2.0
-*/
-
-/*
- * This application has 6 basic steps:
- * 1. Select an identity from a wallet
- * 2. Connect to network gateway
- * 3. Access PaperNet network
- * 4. Construct request to query the ledger
- * 5. Evaluate transactions (queries)
- * 6. Process responses
- */
-
-'use strict';
-
-// Bring key classes into scope, most importantly Fabric SDK network class
+const CommercialPaper = require('../../contract/lib/paper.js');
+const { login } = require("./utils/login.js");
 
 
-const { Wallets, Gateway } = require('fabric-network');
-const fs = require('fs');
-const yaml = require('js-yaml');
+module.exports = async function queryApp(certificate, privateKey, paperNumber ) {
+    let { gateway, company, name } = await login(certificate, privateKey);
+    company = 'digibank';
 
-// const userName = 'Oleg7';
-
-// Main program function
-module.exports = async function queryApp(userName, company, peper , x509Identity) {
-    console.log(company)
-    
-    let companyIndex;
-
-    switch(company) {
-        case 'magnetocorp':
-          companyIndex = '2';
-        break;
-    
-        case 'digibank':
-          companyIndex = '1';
-        break;
-    
-        default:
-          console.log('Invalid company name.')
-      }
-
-    // A wallet stores a collection of identities for use
-    const wallet = await Wallets.newFileSystemWallet(`./identity/${company}/users/wallet`);
-    
-
-    // A gateway defines the peers used to access Fabric networks
-    const gateway = new Gateway();
-
-    // Main try/catch block
-    try {
-
-        // Specify userName for network access
-        
-
-        // Load connection profile; will be used to locate a gateway
-        let connectionProfile = yaml.safeLoad(fs.readFileSync(`./gateway/connection-org${companyIndex}.yaml`, 'utf8'));
-
-        // Set connection options; identity and wallet
-        let connectionOptions = {
-            identity: userName,
-            wallet: wallet,
-            discovery: { enabled: true, asLocalhost: true }
-
-        };
-
-        // Connect to gateway using application specified parameters
-        console.log('Connect to Fabric gateway.');
-
-        await gateway.connect(connectionProfile, connectionOptions);
-
-        // Access PaperNet network
-        console.log('Use network channel: mychannel.');
+    console.log(company);
+    try{
+  
 
         const network = await gateway.getNetwork('mychannel');
 
@@ -90,9 +24,11 @@ module.exports = async function queryApp(userName, company, peper , x509Identity
 
         // 1 asset history
 
-        // console.log('1. Query Commercial Paper History....');
-        // console.log('-----------------------------------------------------------------------------------------\n');
-        let queryResponse = await contract.evaluateTransaction('queryHistory', 'MagnetoCorp', peper);
+        console.log('1. Query Commercial Paper History....');
+        console.log('-----------------------------------------------------------------------------------------\n');
+        // let queryResponse = await contract.evaluateTransaction('queryHistory', company, paperNumber);
+        // let queryResponse = await contract.evaluateTransaction('queryPartial', 'magnetocorp');
+        let queryResponse = await contract.evaluateTransaction('queryNamed', "trading"); //'TRADING''redeemed'
         let json = JSON.parse(queryResponse.toString());
         console.log(json);
         return json;
@@ -158,9 +94,6 @@ module.exports = async function queryApp(userName, company, peper , x509Identity
 
         // console.log('\n  Named query by "value" complete.');
         // console.log('-----------------------------------------------------------------------------------------\n\n');
-
-        
-
         
     } catch (error) {
 
