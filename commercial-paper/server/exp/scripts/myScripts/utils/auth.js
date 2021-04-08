@@ -29,12 +29,12 @@ module.exports.authentication = async function authentication(
   return gateway;
 };
 
-module.exports.enrollment = async function enrollment(ca, mspid, user,  pass, label) {
+module.exports.enrollment = async function enrollment(ca, mspid, user,  pass, label, csr) {
 
   const enrollment = await ca.enroll({
     enrollmentID: user,
     enrollmentSecret: pass,
-    //csr:csr
+    csr
   });
 
   const identity = {
@@ -44,7 +44,7 @@ module.exports.enrollment = async function enrollment(ca, mspid, user,  pass, la
     mspId: mspid,
   };
 
-  console.log( identity.certificate, identity.privateKey)
+  console.log('after enrollment----->', identity.certificate, identity.privateKey)
   return identity;
 };
 

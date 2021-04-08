@@ -3,14 +3,13 @@ const { login } = require("./utils/login.js");
 
 
 module.exports = async function queryApp(certificate, privateKey, paperNumber ) {
-    let { gateway, company, name } = await login(certificate, privateKey);
-    company = 'digibank';
-
-    console.log(company);
+    const { network, gateway, org, name } = await login(certificate, privateKey);
+    company = 'magnetocorp';
+    let queryResponse;
     try{
-  
-
-        const network = await gateway.getNetwork('mychannel');
+    
+        
+        // const network = await gateway.getNetwork('mychannel');
 
         // Get addressability to commercial paper contract
         console.log('Use org.papernet.commercialpaper smart contract.');
@@ -26,9 +25,16 @@ module.exports = async function queryApp(certificate, privateKey, paperNumber ) 
 
         console.log('1. Query Commercial Paper History....');
         console.log('-----------------------------------------------------------------------------------------\n');
+        if(paperNumber !== 'all'){
+            queryResponse = await contract.evaluateTransaction('queryHistory', company, paperNumber);
+
+        }
+        else {
+            queryResponse = await contract.evaluateTransaction('queryPartial', company);
+        }
         // let queryResponse = await contract.evaluateTransaction('queryHistory', company, paperNumber);
         // let queryResponse = await contract.evaluateTransaction('queryPartial', 'magnetocorp');
-        let queryResponse = await contract.evaluateTransaction('queryNamed', "trading"); //'TRADING''redeemed'
+        // let queryResponse = await contract.evaluateTransaction('queryNamed', "trading"); //'TRADING''redeemed'
         let json = JSON.parse(queryResponse.toString());
         console.log(json);
         return json;

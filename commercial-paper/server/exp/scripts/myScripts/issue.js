@@ -13,10 +13,11 @@ module.exports = async function issue(
   redeemDate,
   cost
 ) {
+  const { network, company, gateway, org, name } = await login(certificate, privateKey);
   try {
-    const { gateway, company, name } = await login(certificate, privateKey);
+    
 
-    const network = await gateway.getNetwork("mychannel");
+    // const network = await gateway.getNetwork("mychannel");
 
     const contract = await network.getContract("papercontract");
 

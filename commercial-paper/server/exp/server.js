@@ -25,19 +25,19 @@ app.use(cors())
 app.use(bodyParser());
 
 app.post("/api/registeruser", (req, res) => {
-    const { name, company } = req.body;
-    console.log(name, company );
-    registerUser( name, company ).then((data) => {
-      console.log(data);
-      res.json(data);
+    const { name, company, csr } = req.body;
+    // console.log(name, company, csr );
+    registerUser( name, company, csr ).then((data) => {
+      console.log('sert----->', data.certificate);
+      res.json(data? data: {error: "no response"});
     });
   });
 
 
 
-  app.get("/api/login", (req, res) => {
+  app.post("/api/login", (req, res) => {
     const {certificate, privateKey } = req.body;
-    // console.log(req.body)
+    console.log('body------:>', req.body)
     login(certificate, privateKey).then((data) => {
       console.log(data);
       res.send({name: data.name, company: data.company});

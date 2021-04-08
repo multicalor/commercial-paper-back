@@ -7,12 +7,9 @@ module.exports = async function redeem(certificate, privateKey) {
 
  try{
 
-  const { gateway, company, name } = await login(certificate, privateKey);
+  const { network, gateway } = await login(certificate, privateKey);
 
     // Access PaperNet network
-    console.log('Use network channel: mychannel.');
-
-    const network = await gateway.getNetwork('mychannel');
 
     // Get addressability to commercial paper contract
     console.log('Use org.papernet.commercialpaper smart contract.');
@@ -22,7 +19,7 @@ module.exports = async function redeem(certificate, privateKey) {
     // redeem commercial paper
     console.log('Submit commercial paper redeem transaction.');
 
-    const redeemResponse = await contract.submitTransaction('redeem', 'magnetocorp', '00002', 'digibank', 'Org2MSP', '2020-11-30');
+    const redeemResponse = await contract.submitTransaction('redeem', 'magnetocorp', '00003', 'digibank', 'Org2MSP', '2020-11-30');
 
     // process response
     console.log('Process redeem transaction response.');

@@ -9,8 +9,8 @@ var rsu = require("jsrsasign-util");
 module.exports.getConnectedProfile = function getConnectedProfile(company) {
   try {
     let mspId = {
-      magnetocorp: "Org2MSP",
-      digibank: "Org1MSP",
+      org2: "Org2MSP",
+      org1: "Org1MSP",
     };
 
     let ccpPath;
@@ -52,11 +52,17 @@ module.exports.getConnectedProfile = function getConnectedProfile(company) {
 };
 
 module.exports.pemParse = function pemParse(pemStr) {
-  
   let c = new X509();
   c.readCertPEM(pemStr);
 
   let data = c.getSubjectString();
+
+  // var sIssuer    = c.getIssuerString();    // '/C=US/O=z2'
+  // var sSubject   = c.getSubjectString();   // '/C=US/O=z2'
+  // var sNotBefore = c.getNotBefore();       // '100513235959Z'
+  // var sNotAfter  = c.getNotAfter();        // '200513235959Z'
+
+  console.log(data)
   
   let org = data.slice(data.indexOf("org"), data.indexOf("org") + 4);
   let name = data.split(/[=|+|\n]/).reverse()[0];
@@ -74,6 +80,6 @@ module.exports.pemParse = function pemParse(pemStr) {
     default:
       return { error: "Invalid company mspid." };
   }
-
-  return { company, name };
+  console.log(org, name, company)
+  return { org, name, company };
 };

@@ -13,17 +13,16 @@ module.exports = async function buy (certificate, privateKey) {
     // Main try/catch block
     try {
 
-        const { gateway, company, name } = await login(certificate, privateKey);
+        const { network, company, gateway } = await login(certificate, privateKey);
 
-
-        const network = await gateway.getNetwork('mychannel');
+        // const network = await gateway.getNetwork('mychannel');
 
 
         const contract = await network.getContract('papercontract', 'org.papernet.commercialpaper');
 
         console.log('Submit commercial paper buy transaction.');
                                                             // buy(ctx, issuer, paperNumber, currentOwner, newOwner, price, purchaseDateTime
-        const buyResponse = await contract.submitTransaction('buy', 'magnetocorp', '00002', 'magnetocorp', company, '4900000', '2020-05-31');
+        const buyResponse = await contract.submitTransaction('buy', 'magnetocorp', '00003', 'magnetocorp', company, '4900000', '2020-05-31');
         // readonly chaincodeId: string;
         // readonly namespace: string;
         // createTransaction(name: string): Transaction;
