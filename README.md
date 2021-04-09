@@ -36,7 +36,19 @@ ENTER: the project dir and run the command in the terminal:
 
 Prerequisites COMPLETE!
 
-2. Create the network
+1. Deploy from script
+
+Open new terminal from 'hf/' folder and ENTER command:
+
+    chmod +x deploy.sh
+    ./deploy.sh
+
+
+
+
+
+
+1. Manual deploy and create the network
 
 From the project root folder.
 FROM path: hf/
@@ -49,7 +61,7 @@ Enter the command in the terminal:
 Create the network COMPLETE!
 
 
-3. Deploy the smart contract to the channel.
+2. Deploy the smart contract to the channel.
 
 Install and approve the smart contract as MagnetoCorp.
 
@@ -184,7 +196,7 @@ OUT:
 
 Install chaincode for digiBank COMPLETE!
 
-4. Commit the chaincode definition to the channel.
+3. Commit the chaincode definition to the channel.
 FROM path: hf/commercial-paper/organization/digibank$
 ENTER:
 
@@ -198,7 +210,7 @@ OUT:
 
 Commit the chaincode definition to the channel COMPLETE!
 
-5. Install application magnetocorp.
+4. Install application magnetocorp.
 FROM path: hf/commercial-paper/organization/magnetocorp/application$
 ENTER:
 
@@ -213,7 +225,7 @@ OPTIONS: for manual use application from terminal.
     node enrollUser.js
     node issue.js
 
-6. Install application digibank.
+5. Install application digibank.
 Open new terminal:
 FROM: path: hf/commercial-paper/organization/digibank/application$
 ENTER:
