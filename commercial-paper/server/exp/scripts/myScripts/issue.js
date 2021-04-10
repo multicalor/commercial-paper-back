@@ -9,14 +9,14 @@ module.exports = async function issue(
   certificate,
   privateKey,
   paperNumber,
-  releaseDate,
   redeemDate,
   cost
 ) {
-  const { network, company, gateway, org, name } = await login(certificate, privateKey);
+  const { network, company, gateway } = await login(certificate, privateKey);
   try {
     
-
+    let date = new Date()
+    currentDate = date.toLocaleDateString()
     // const network = await gateway.getNetwork("mychannel");
 
     const contract = await network.getContract("papercontract");
@@ -28,7 +28,7 @@ module.exports = async function issue(
       "issue",
       company,
       paperNumber,
-      releaseDate,
+      currentDate,
       redeemDate,
       cost
     );

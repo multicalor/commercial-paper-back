@@ -4,11 +4,11 @@ const { login } = require("./utils/login.js");
 // Bring key classes into scope, most importantly Fabric SDK network class
 
 // const CommercialPaper = require('../../magnetocorp/contract/lib/paper.js');
-// 'buy', 'MagnetoCorp', '00001', 'MagnetoCorp', 'DigiBank', '4900000', '2020-05-31'
+// 'buy', 'MagnetoCorp', '00001', 'MagnetoCorp', 'DigiBank', '4900000', '09.04.2021'
 
 
 // Main program function
-module.exports = async function buy (certificate, privateKey) {
+module.exports = async function buy (certificate, privateKey, issuer, paperNumber, currentOwner, newOwner, price, purchaseDateTime) {
 
     // Main try/catch block
     try {

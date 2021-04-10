@@ -25,14 +25,13 @@ app.use(cors())
 app.use(bodyParser());
 
 app.post("/api/registeruser", (req, res) => {
-    const { name, company, csr } = req.body;
+    const { name, company} = req.body;
     // console.log(name, company, csr );
-    registerUser( name, company, csr ).then((data) => {
-      console.log('sert----->', data.certificate);
+    registerUser( name, company).then((data) => {
+      console.log('sert----->', data.certificate, data.privateKey);
       res.json(data? data: {error: "no response"});
     });
   });
-
 
 
   app.post("/api/login", (req, res) => {
@@ -47,9 +46,9 @@ app.post("/api/registeruser", (req, res) => {
 
 app.post("/api/issue", (req, res) => {
   
-  const { certificate, privateKey, paperNumber, releaseDate, redeemDate, cost } = req.body;
+  const { certificate, privateKey, paperNumber,  redeemDate, cost } = req.body;//releaseDate,
 
-  issue(certificate, privateKey, paperNumber, releaseDate, redeemDate, cost)
+  issue(certificate, privateKey, paperNumber, redeemDate, cost)
   .then(data => {
       console.log('test+++++++++', data)
       res.send(data)
@@ -83,10 +82,10 @@ app.put("/api/redeem", (req, res) => {
 });
 
 
-app.get("/api/history", (req, res) => {
+app.post("/api/history", (req, res) => {
   
   const { certificate, privateKey, paperNumber } = req.body;
-  console.log();
+  console.log(certificate, privateKey, paperNumber );
   queryApp( certificate, privateKey, paperNumber )
   .then(data => {
       console.log('test+++++++++', data)
@@ -94,15 +93,15 @@ app.get("/api/history", (req, res) => {
   });
 });
 
-app.get("/api/historyall", (req, res) => {
+// app.get("/api/historyall", (req, res) => {
   
-  const { name, company } = req.body;
-  queryAllPaper( name, company )
-  .then(data => {
-      console.log('test+++++++++', data)
-      res.send(data)
-  });
-});
+//   const { name, company } = req.body;
+//   queryAllPaper( name, company )
+//   .then(data => {
+//       console.log('test+++++++++', data)
+//       res.send(data)
+//   });
+// });
 
 app.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`);
