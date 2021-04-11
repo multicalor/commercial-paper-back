@@ -8,13 +8,13 @@ const { login } = require("./utils/login.js");
 
 
 // Main program function
-module.exports = async function buy (certificate, privateKey, issuer, paperNumber, currentOwner, newOwner, price, purchaseDateTime) {
+module.exports = async function buy (certificate, privateKey, issuer, paperNumber, currentOwner, price, purchaseDateTime) {
 
     // Main try/catch block
     try {
 
         const { network, company, gateway } = await login(certificate, privateKey);
-
+            
         // const network = await gateway.getNetwork('mychannel');
 
 
@@ -22,7 +22,7 @@ module.exports = async function buy (certificate, privateKey, issuer, paperNumbe
 
         console.log('Submit commercial paper buy transaction.');
                                                             // buy(ctx, issuer, paperNumber, currentOwner, newOwner, price, purchaseDateTime
-        const buyResponse = await contract.submitTransaction('buy', 'magnetocorp', '00001', 'magnetocorp', company, '4900000', '2020-05-31');
+        const buyResponse = await contract.submitTransaction('buy', issuer, paperNumber, currentOwner, company, price, purchaseDateTime);
         // readonly chaincodeId: string;
         // readonly namespace: string;
         // createTransaction(name: string): Transaction;

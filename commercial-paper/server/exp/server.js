@@ -60,9 +60,9 @@ app.post("/api/issue", (req, res) => {
 
 app.put("/api/buy", (req, res) => {
   
-  const { certificate, privateKey } = req.body;
+  const { certificate, privateKey,  issuer, paperNumber, currentOwner, price, purchaseDateTime } = req.body;
   console.log(req.body);
-  buy(  certificate, privateKey )
+  buy( certificate, privateKey,  issuer, paperNumber, currentOwner, price, purchaseDateTime )
   .then(data => {
       console.log('test+++++++++', data)
       res.send(data)
