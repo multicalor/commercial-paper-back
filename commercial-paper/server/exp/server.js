@@ -59,7 +59,7 @@ app.post("/api/issue", (req, res) => {
 
 
 app.put("/api/buy", (req, res) => {
-  
+                            // 'magnetocorp', '00001', 'magnetocorp', 'DigiBank', '4900000', '2020-05-31'
   const { certificate, privateKey,  issuer, paperNumber, currentOwner, price, purchaseDateTime } = req.body;
   console.log(req.body);
   buy( certificate, privateKey,  issuer, paperNumber, currentOwner, price, purchaseDateTime )
@@ -71,7 +71,7 @@ app.put("/api/buy", (req, res) => {
 
 
 app.put("/api/redeem", (req, res) => {
-  
+                             // 'MagnetoCorp', '00001', 'DigiBank', 'Org2MSP', '2020-11-30'
   const { certificate, privateKey, issuer, paperNumber, issuingOwnerMSP, redeemDateTime } = req.body;
   console.log(req.body);
   redeem( certificate, privateKey, issuer, paperNumber, issuingOwnerMSP, redeemDateTime )
