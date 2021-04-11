@@ -24,6 +24,7 @@ const app = express();
 app.use(cors())
 app.use(bodyParser());
 
+
 app.post("/api/registeruser", (req, res) => {
     const { name, company} = req.body;
     // console.log(name, company, csr );
@@ -32,7 +33,6 @@ app.post("/api/registeruser", (req, res) => {
       res.json(data? data: {error: "no response"});
     });
   });
-
 
   app.post("/api/login", (req, res) => {
     const {certificate, privateKey } = req.body;
@@ -82,7 +82,7 @@ app.put("/api/redeem", (req, res) => {
 });
 
 
-app.post("/api/history", (req, res) => {
+app.get("/api/history", (req, res) => {
   
   const { certificate, privateKey, paperNumber } = req.body;
   console.log(certificate, privateKey, paperNumber );

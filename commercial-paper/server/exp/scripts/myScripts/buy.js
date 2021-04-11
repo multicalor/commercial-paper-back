@@ -22,7 +22,7 @@ module.exports = async function buy (certificate, privateKey, issuer, paperNumbe
 
         console.log('Submit commercial paper buy transaction.');
                                                             // buy(ctx, issuer, paperNumber, currentOwner, newOwner, price, purchaseDateTime
-        const buyResponse = await contract.submitTransaction('buy', 'magnetocorp', '00003', 'magnetocorp', company, '4900000', '2020-05-31');
+        const buyResponse = await contract.submitTransaction('buy', 'magnetocorp', '00001', 'magnetocorp', company, '4900000', '2020-05-31');
         // readonly chaincodeId: string;
         // readonly namespace: string;
         // createTransaction(name: string): Transaction;

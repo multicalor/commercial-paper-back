@@ -23,7 +23,11 @@ docker kill cliDigiBank cliMagnetoCorp logspout || true
 ./network.sh up createChannel -ca -s couchdb
 
 # Copy the connection profiles so they are in the correct organizations.
-/home/prg/prg/482/test/hf/commercial-paper/server/exp/gateway
+# /hf/commercial-paper/server/exp/gateway
+# /hf/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.yaml
+# cp "${DIR}/../test-network/organizations/peerOrganizations/org1.example.com/connection-org1.yaml" "${DIR}/organization/digibank/gateway/"
+# cp "${DIR}/../test-network/organizations/peerOrganizations/org2.example.com/connection-org2.yaml" "${DIR}/organization/magnetocorp/gateway/"
+
 cp "${DIR}/../test-network/organizations/peerOrganizations/org1.example.com/connection-org1.yaml" "${DIR}/server/exp/gateway/"
 cp "${DIR}/../test-network/organizations/peerOrganizations/org2.example.com/connection-org2.yaml" "${DIR}/server/exp/gateway/"
 
