@@ -17,8 +17,8 @@ module.exports = async function redeem(certificate, privateKey) {
     const contract = await network.getContract('papercontract', 'org.papernet.commercialpaper');
 
     // redeem commercial paper
-    console.log('Submit commercial paper redeem transaction.');
-
+    console.log('Submit commercial paper redeem transaction.'); 
+                                                                       // issuer, paperNumber, redeemingOwner, issuingOwnerMSP, redeemDateTime
     const redeemResponse = await contract.submitTransaction('redeem', 'magnetocorp', '00003', 'digibank', 'Org2MSP', '2020-11-30');
 
     // process response
