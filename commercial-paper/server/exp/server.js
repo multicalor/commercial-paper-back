@@ -72,9 +72,9 @@ app.put("/api/buy", (req, res) => {
 
 app.put("/api/redeem", (req, res) => {
   
-  const { certificate, privateKey } = req.body;
+  const { certificate, privateKey, issuer, paperNumber, issuingOwnerMSP, redeemDateTime } = req.body;
   console.log(req.body);
-  redeem( certificate, privateKey )
+  redeem( certificate, privateKey, issuer, paperNumber, issuingOwnerMSP, redeemDateTime )
   .then(data => {
       console.log('test+++++++++', data)
       res.send(data)

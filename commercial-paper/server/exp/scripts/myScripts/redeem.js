@@ -3,11 +3,11 @@ const { login } = require("./utils/login.js");
 
 
 // Main program function
-module.exports = async function redeem(certificate, privateKey) {
+module.exports = async function redeem(certificate, privateKey, issuer, paperNumber, issuingOwnerMSP, redeemDateTime) {
 
  try{
 
-  const { network, gateway } = await login(certificate, privateKey);
+  const { network, gateway, company } = await login(certificate, privateKey);
 
     // Access PaperNet network
 
@@ -19,7 +19,7 @@ module.exports = async function redeem(certificate, privateKey) {
     // redeem commercial paper
     console.log('Submit commercial paper redeem transaction.'); 
                                                                        // issuer, paperNumber, redeemingOwner, issuingOwnerMSP, redeemDateTime
-    const redeemResponse = await contract.submitTransaction('redeem', 'magnetocorp', '00003', 'digibank', 'Org2MSP', '2020-11-30');
+    const redeemResponse = await contract.submitTransaction('redeem', issuer, paperNumber, company, issuingOwnerMSP, redeemDateTime);
 
     // process response
     console.log('Process redeem transaction response.');
