@@ -3,20 +3,12 @@ const bodyParser = require("body-parser");
 var cors = require('cors')
 
 
-// const enrollAdmin = require("./scripts/enrollAdmin");registerUser
-const registerUser = require("./scripts/myScripts/registerUser");
-const {login} = require("./scripts/myScripts/utils/login");
-const issue = require("./scripts/myScripts/issue.js");
-const buy = require("./scripts/myScripts/buy.js");
-const queryApp = require("./scripts/myScripts/queryapp");
-// const queryApp = require("./scripts/queryapp.js");
-const redeem = require("./scripts/myScripts/redeem.js");
-// const queryAllPaper = require("./scripts/queryAllPaper.js");
-
-// const wallets = require('./scripts/myScripst/inMemoryWallet')
-// const history = require("./cpListener.js");
-
-
+const registerUser = require("./src/registerUser");
+const {login} = require("./src/utils/login");
+const issue = require("./src/issue");
+const buy = require("./src/buy");
+const queryApp = require("./src/queryapp");
+const redeem = require("./src/redeem");
 
 const PORT = process.env.PORT || 3000;
 
@@ -29,17 +21,17 @@ app.post("/api/registeruser", (req, res) => {
     const { name, company} = req.body;
     // console.log(name, company, csr );
     registerUser( name, company).then((data) => {
-      console.log('sert----->', data.certificate, data.privateKey);
+      console.log('res--------->', data.certificate, data.privateKey);
       res.json(data? data: {error: "no response"});
     });
   });
 
   app.post("/api/login", (req, res) => {
-    const {certificate, privateKey } = req.body;
-    console.log('body------:>', req.body)
-    login(certificate, privateKey).then((data) => {
+    const {certificate, privateKey, flag } = req.body;
+    console.log('res--------->', req.body)
+    login(certificate, privateKey, flag).then((data) => {
       console.log(data);
-      res.send({name: data.name, company: data.company});
+      res.send({name: data.name, company: data.org});
     });
   });
 
@@ -50,58 +42,49 @@ app.post("/api/issue", (req, res) => {
 
   issue(certificate, privateKey, paperNumber, redeemDate, cost)
   .then(data => {
-      console.log('test+++++++++', data)
-      res.send(data)
+      console.log('res--------->', data);
+      res.send(data);
   });
 });
 
 
 
 
-app.put("/api/buy", (req, res) => {
+app.post("/api/buy", (req, res) => {
                             // 'magnetocorp', '00001', 'magnetocorp', 'DigiBank', '4900000', '2020-05-31'
-  const { certificate, privateKey,  issuer, paperNumber, currentOwner, price, purchaseDateTime } = req.body;
-  console.log(req.body);
-  buy( certificate, privateKey,  issuer, paperNumber, currentOwner, price, purchaseDateTime )
+  const { certificate, privateKey,  issuer, paperNumber, owner, faceValue, maturityDateTime } = req.body;
+  console.log('body----->',req.body);
+  buy( certificate, privateKey,  issuer, paperNumber, owner, `${faceValue}`, maturityDateTime )
   .then(data => {
-      console.log('test+++++++++', data)
+      console.log('res--------->', data)
       res.send(data)
   });
 });
 
 
-app.put("/api/redeem", (req, res) => {
-                             // 'MagnetoCorp', '00001', 'DigiBank', 'Org2MSP', '2020-11-30'
-  const { certificate, privateKey, issuer, paperNumber, issuingOwnerMSP, redeemDateTime } = req.body;
-  console.log(req.body);
-  redeem( certificate, privateKey, issuer, paperNumber, issuingOwnerMSP, redeemDateTime )
+app.post("/api/redeem", (req, res) => {
+                             // 'MagnetoCorp', '00001', , '2020-11-30'
+  const { certificate, privateKey, issuer, paperNumber, maturityDateTime } = req.body;
+  console.log('REDEEM+++++++++++++++++++++++++++++++++++++++++++++++', req.body);
+  redeem( certificate, privateKey, issuer, paperNumber, maturityDateTime )
   .then(data => {
-      console.log('test+++++++++', data)
+      console.log('res--------->', data)
       res.send(data)
   });
 });
 
 
-app.get("/api/history", (req, res) => {
+app.post("/api/history", (req, res) => {
   
   const { certificate, privateKey, paperNumber } = req.body;
-  console.log(certificate, privateKey, paperNumber );
+  console.log('history---body>',req.body);
   queryApp( certificate, privateKey, paperNumber )
   .then(data => {
-      console.log('test+++++++++', data)
+      // console.log('res--------->', data)
       res.send(data)
   });
 });
 
-// app.get("/api/historyall", (req, res) => {
-  
-//   const { name, company } = req.body;
-//   queryAllPaper( name, company )
-//   .then(data => {
-//       console.log('test+++++++++', data)
-//       res.send(data)
-//   });
-// });
 
 app.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`);

@@ -36,7 +36,21 @@ ENTER: the project dir and run the command in the terminal:
 
 Prerequisites COMPLETE!
 
-2. Create the network
+1. Open new terminal from project root dir and ENTER command:
+
+chmod +x deploy.sh
+
+./deploy.sh
+
+2. after the lines appear in the console:
+
+    2021-04-12 11:45:54.503 EEST [cli.lifecycle.chaincode] submitInstallProposal -> INFO 002 Chaincode code package identifier: cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
+
+
+2021-04-12 11:47:10.391 EEST [cli.lifecycle.chaincode] submitInstallProposal -> INFO 002 Chaincode code package identifier: cp_0:6fe94b7c5000822dbd74ca203c2fe2c8ed0e8faab35caf3650734a7474ae766f
+
+
+1. Create the network
 
 From the project root folder.
 FROM path: hf/
