@@ -35,7 +35,7 @@ module.exports = async function registerUser(name, company, csr) {
       secret,
       csr
     );
-
+      console.log(certificate, privateKey, org )
     return { certificate, privateKey, company: org };
   } catch (error) {
     console.log(`Failed to register user ${name}: ${error}`);

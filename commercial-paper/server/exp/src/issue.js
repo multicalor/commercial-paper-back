@@ -1,10 +1,6 @@
 const CommercialPaper = require("../contract/lib/paper.js");
 const { login } = require("./utils/login.js");
 
-// const enrollAdmin = require('./enrollAdmin')
-// const { getConnectedProfile } = require('./utils')
-// 'issue', 'MagnetoCorp', '00001', '2020-05-31', '2020-11-30', '5000000'
-
 module.exports = async function issue(
   certificate,
   privateKey,
@@ -47,7 +43,7 @@ module.exports = async function issue(
       `${paper.issuer} commercial paper : ${paper.paperNumber} successfully issued for value ${paper.faceValue}`
     );
     console.log("Transaction complete.");
-    gateway.disconnect();
+    
     console.log({Key: paper.class+paper.paperNumber})
     return { Key: paper.class + paper.paperNumber, Record: paper };
     
@@ -55,9 +51,9 @@ module.exports = async function issue(
     console.log(`Error processing transaction. ${error}`);
     console.log(error.stack);
   } finally {
-
-    console.log("Disconnect from Fabric gateway.");
     
+    console.log("Disconnect from Fabric gateway.");
+    gateway.disconnect();
   }
 };
 

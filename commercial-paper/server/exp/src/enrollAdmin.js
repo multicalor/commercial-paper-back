@@ -1,7 +1,7 @@
 const { authentication, enrollment } = require('./utils/auth')
 
 
-module.exports = async function enrollAdmin(mspid, ca, connectionProfile, admin='admin', adminPass='adminpw') {
+module.exports = async function enrollAdmin(mspid, ca, connectionProfile, admin, adminPass) {
    
   try {
     const identity = await enrollment(ca, mspid, admin, adminPass, "admin",)

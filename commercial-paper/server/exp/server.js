@@ -17,16 +17,16 @@ app.use(cors())
 app.use(bodyParser());
 
 
-app.post("/api/registeruser", (req, res) => {
+app.post("/api/user", (req, res) => {
     const { name, company} = req.body;
     // console.log(name, company, csr );
     registerUser( name, company).then((data) => {
-      console.log('res--------->', data.certificate, data.privateKey);
-      res.json(data? data: {error: "no response"});
+      console.log('res--------->', data);
+      res.send(data? data: {error: "no response"});
     });
   });
 
-  app.post("/api/login", (req, res) => {
+  app.get("/api/user", (req, res) => {
     const {certificate, privateKey, flag } = req.body;
     console.log('res--------->', req.body)
     login(certificate, privateKey, flag).then((data) => {
@@ -50,11 +50,11 @@ app.post("/api/issue", (req, res) => {
 
 
 
-app.post("/api/buy", (req, res) => {
+app.put("/api/buy", (req, res) => {
                             // 'magnetocorp', '00001', 'magnetocorp', 'DigiBank', '4900000', '2020-05-31'
   const { certificate, privateKey,  issuer, paperNumber, owner, faceValue, maturityDateTime } = req.body;
   console.log('body----->',req.body);
-  buy( certificate, privateKey,  issuer, paperNumber, owner, `${faceValue}`, maturityDateTime )
+  buy( certificate, privateKey,  issuer, paperNumber, owner, faceValue, maturityDateTime )
   .then(data => {
       console.log('res--------->', data)
       res.send(data)
@@ -62,8 +62,8 @@ app.post("/api/buy", (req, res) => {
 });
 
 
-app.post("/api/redeem", (req, res) => {
-                             // 'MagnetoCorp', '00001', , '2020-11-30'
+app.put("/api/redeem", (req, res) => {
+                             // 'magnetocorp', '00001', , '2020-11-30'
   const { certificate, privateKey, issuer, paperNumber, maturityDateTime } = req.body;
   console.log('REDEEM+++++++++++++++++++++++++++++++++++++++++++++++', req.body);
   redeem( certificate, privateKey, issuer, paperNumber, maturityDateTime )

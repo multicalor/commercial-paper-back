@@ -47,10 +47,33 @@ chmod +x deploy.sh
     2021-04-12 11:45:54.503 EEST [cli.lifecycle.chaincode] submitInstallProposal -> INFO 002 Chaincode code package identifier: cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
 
 
-2021-04-12 11:47:10.391 EEST [cli.lifecycle.chaincode] submitInstallProposal -> INFO 002 Chaincode code package identifier: cp_0:6fe94b7c5000822dbd74ca203c2fe2c8ed0e8faab35caf3650734a7474ae766f
+you need to copy a string like: 
+
+    cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
+
+and insert it back into the terminal and press the enter button
+
+3. After the lines appear in the console:
+
+    2021-04-12 11:47:10.391 EEST [cli.lifecycle.chaincode] submitInstallProposal -> INFO 002 Chaincode code package identifier: cp_0:6fe94b7c5000822dbd74ca203c2fe2c8ed0e8faab35caf3650734a7474ae766f
+
+you need to copy a string like: 
+
+    cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
+
+and insert it back into the terminal and press the enter button.
+
+4. After executing all the commands and loading the dependencies, the server will boot, terminating the process.
 
 
-1. Create the network
+See endpoints in README.md at path:
+
+    /hf/commercial-paper/server/exp/README.md
+
+
+1. Manual deploy.
+
+Create the network
 
 From the project root folder.
 FROM path: hf/
@@ -63,7 +86,7 @@ Enter the command in the terminal:
 Create the network COMPLETE!
 
 
-3. Deploy the smart contract to the channel.
+2. Deploy the smart contract to the channel.
 
 Install and approve the smart contract as MagnetoCorp.
 
@@ -198,7 +221,7 @@ OUT:
 
 Install chaincode for digiBank COMPLETE!
 
-4. Commit the chaincode definition to the channel.
+3. Commit the chaincode definition to the channel.
 FROM path: hf/commercial-paper/organization/digibank$
 ENTER:
 
@@ -212,7 +235,7 @@ OUT:
 
 Commit the chaincode definition to the channel COMPLETE!
 
-5. Install application magnetocorp.
+4. Install application magnetocorp.
 FROM path: hf/commercial-paper/organization/magnetocorp/application$
 ENTER:
 
@@ -227,7 +250,7 @@ OPTIONS: for manual use application from terminal.
     node enrollUser.js
     node issue.js
 
-6. Install application digibank.
+5. Install application digibank.
 Open new terminal:
 FROM: path: hf/commercial-paper/organization/digibank/application$
 ENTER:

@@ -1,10 +1,8 @@
-const { Gateway, InMemoryWallet } = require("fabric-network");
 const FabricCAServices = require("fabric-ca-client");
 const fs = require("fs");
 const path = require("path");
 const yaml = require("js-yaml");
 const { X509 } = require("jsrsasign");
-var rsu = require("jsrsasign-util");
 
 module.exports.getConnectedProfile = function getConnectedProfile(company) {
   try {
@@ -56,20 +54,10 @@ module.exports.pemParse = function pemParse(pemStr) {
   let data = c.getSubjectString();
   let org = data.slice(data.indexOf("org"), data.indexOf("org") + 4);
   let name = data.split(/[=|+|\n]/).reverse()[0];
-  let company;
-
-  switch (org) {
-    case "org1":
-      company = "digibank";
-      break;
-
-    case "org2":
-      company = "magnetocorp";
-      break;
-
-    default:
-      return { error: "Invalid company mspid." };
+  let company = {
+    org1:"digibank",
+    org2:"magnetocorp"
   }
-  console.log(org, name, company)
-  return { org, name, company };
+
+  return { org, name, company: company[org] };
 };

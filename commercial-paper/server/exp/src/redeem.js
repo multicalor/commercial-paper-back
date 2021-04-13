@@ -3,33 +3,24 @@ const { login } = require("./utils/login.js");
 
 
 // Main program function
-module.exports = async function redeem(certificate, privateKey, issuer, paperNumber, redeemDateTime) { //issuingOwnerMSP
+module.exports = async function redeem(certificate, privateKey, issuer, paperNumber, redeemDateTime) { 
 
+  const { network, gateway, company } = await login(certificate, privateKey);
+  let issuingOwnerMSP = {
+    magnetocorp: 'Org2MSP',
+  }
  try{
-
-  const { network, gateway, company, mspid } = await login(certificate, privateKey);
-
-    // Access PaperNet network
-
-    // Get addressability to commercial paper contract
-    console.log('Use org.papernet.commercialpaper smart contract.');
 
     const contract = await network.getContract('papercontract', 'org.papernet.commercialpaper');
 
-    // redeem commercial paper
     console.log('Submit commercial paper redeem transaction.'); 
                                                                    // issuer, paperNumber, redeemingOwner, issuingOwnerMSP, redeemDateTime
-    const redeemResponse = await contract.submitTransaction('redeem', issuer, paperNumber, company, 'Org2MSP', redeemDateTime);
-
-    // process response
-    console.log('Process redeem transaction response.');
+    const redeemResponse = await contract.submitTransaction('redeem', issuer, paperNumber, company, issuingOwnerMSP[issuer], redeemDateTime);
 
     let paper = CommercialPaper.fromBuffer(redeemResponse);
 
     console.log(`${paper.issuer} commercial paper : ${paper.paperNumber} successfully redeemed with ${paper.owner}`);
 
-    console.log('Transaction complete.');
-    gateway.disconnect();
     return paper
   } catch (error) {
 
@@ -38,21 +29,8 @@ module.exports = async function redeem(certificate, privateKey, issuer, paperNum
 
   } finally {
 
-    // Disconnect from the gateway
     console.log('Disconnect from Fabric gateway.')
-   
+    gateway.disconnect();
 
   }
 }
-// redeem(userName).then(() => {
-
-//   console.log('Redeem program complete.');
-
-// }).catch((e) => {
-
-//   console.log('Redeem program exception.');
-//   console.log(e);
-//   console.log(e.stack);
-//   process.exit(-1);
-
-// });
