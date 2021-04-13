@@ -39,7 +39,7 @@ app.post("/api/user", (req, res) => {
 app.post("/api/issue", (req, res) => {
   
   const { certificate, privateKey, paperNumber,  redeemDate, cost } = req.body;//releaseDate,
-
+  console.log('body----->',req.body);
   issue(certificate, privateKey, paperNumber, redeemDate, cost)
   .then(data => {
       console.log('res--------->', data);
