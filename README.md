@@ -20,12 +20,11 @@ Enter the command in the terminal:
 
     sudo usermod -a -G docker <username>
 
-
 Download project from git.
 
 Open new terminal from project root dir ENTER command:
 
-    git clone git@github.com:multicalor/hf.git
+    git clone git@github.com:multicalor/commercial-paper-back.git
 
 Download binaries.
 ENTER: the project dir and run the command in the terminal:
@@ -44,10 +43,9 @@ chmod +x deploy.sh
 
 2. after the lines appear in the console:
 
-    2021-04-12 11:45:54.503 EEST [cli.lifecycle.chaincode] submitInstallProposal -> INFO 002 Chaincode code package identifier: cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
+   2021-04-12 11:45:54.503 EEST [cli.lifecycle.chaincode] submitInstallProposal -> INFO 002 Chaincode code package identifier: cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
 
-
-you need to copy a string like: 
+you need to copy a string like:
 
     cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
 
@@ -55,9 +53,9 @@ and insert it back into the terminal and press the enter button
 
 3. After the lines appear in the console:
 
-    2021-04-12 11:47:10.391 EEST [cli.lifecycle.chaincode] submitInstallProposal -> INFO 002 Chaincode code package identifier: cp_0:6fe94b7c5000822dbd74ca203c2fe2c8ed0e8faab35caf3650734a7474ae766f
+   2021-04-12 11:47:10.391 EEST [cli.lifecycle.chaincode] submitInstallProposal -> INFO 002 Chaincode code package identifier: cp_0:6fe94b7c5000822dbd74ca203c2fe2c8ed0e8faab35caf3650734a7474ae766f
 
-you need to copy a string like: 
+you need to copy a string like:
 
     cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
 
@@ -65,11 +63,9 @@ and insert it back into the terminal and press the enter button.
 
 4. After executing all the commands and loading the dependencies, the server will boot, terminating the process.
 
-
 See endpoints in README.md at path:
 
-    /hf/commercial-paper/server/exp/README.md
-
+https://github.com/multicalor/commercial-paper-back/blob/main/commercial-paper/server/exp/README.md
 
 1. Manual deploy.
 
@@ -84,7 +80,6 @@ Enter the command in the terminal:
     ./network-starter.sh
 
 Create the network COMPLETE!
-
 
 2. Deploy the smart contract to the channel.
 
@@ -109,13 +104,12 @@ OUTPUT:
 COPY line from output after "Chaincode code package identifier: "
 an example of a copied string "cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a" (your string may be different)
 
-paste the copied line after the command "export PACKAGE_ID=" + "cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a" 
+paste the copied line after the command "export PACKAGE_ID=" + "cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a"
 (your string may be different)
 FROM path: hf/commercial-paper/organization/magnetocorp$
 ENTER:
 
     export PACKAGE_ID=cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a
-
 
 Get PACKAGE_ID
 OPTION:
@@ -130,16 +124,13 @@ Approve the chaincode definition for MagnetoCorp.
 FROM path: hf/commercial-paper/organization/magnetocorp$
 ENTER:
 
-        
-
 OUt
-    2021-03-21 23:54:56.741 EET [chaincodeCmd] ClientWait -> INFO 001 txid [31b6b54148dc1f5ea1b96ec5d82b5de07fe6537a69bd1230f606d9906be2aa83] committed with status (VALID) at localhost:9051
+2021-03-21 23:54:56.741 EET [chaincodeCmd] ClientWait -> INFO 001 txid [31b6b54148dc1f5ea1b96ec5d82b5de07fe6537a69bd1230f606d9906be2aa83] committed with status (VALID) at localhost:9051
 
 ENTER:
 
     peer lifecycle chaincode approveformyorg --orderer localhost:7050 --ordererTLSHostnameOverride orderer.example.com --channelID mychannel --name papercontract -v 0 --package-id $PACKAGE_ID --sequence 1 --tls --cafile $ORDERER_CA
 
-    
 Approve the chaincode definition for MagnetoCorp COMPLETE!
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -194,7 +185,7 @@ OUT:
 COPY line from output after "Chaincode code package identifier: "
 an example of a copied string "cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a" (your string may be different)
 
-paste the copied line after the command "export PACKAGE_ID=" + "cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a" 
+paste the copied line after the command "export PACKAGE_ID=" + "cp_0:ddca913c004eb34f36dfb0b4c0bcc6d4afc1fa823520bb5966a3bfcf1808f40a"
 (your string may be different)
 
 FROM path: hf/commercial-paper/organization/digibank$
@@ -207,11 +198,9 @@ OPTION:
 
     peer lifecycle chaincode queryinstalled
 
-
-
 Approve the chaincode definition for DigiBank
 FROM path: hf/commercial-paper/organization/digibank$
-ENTER: 
+ENTER:
 
     peer lifecycle chaincode approveformyorg --orderer localhost:7050 --ordererTLSHostnameOverride orderer.example.com --channelID mychannel --name papercontract -v 0 --package-id $PACKAGE_ID --sequence 1 --tls --cafile $ORDERER_CA
 
@@ -221,11 +210,11 @@ OUT:
 
 Install chaincode for digiBank COMPLETE!
 
-3. Commit the chaincode definition to the channel.
-FROM path: hf/commercial-paper/organization/digibank$
-ENTER:
+3.  Commit the chaincode definition to the channel.
+    FROM path: hf/commercial-paper/organization/digibank$
+    ENTER:
 
-    peer lifecycle chaincode commit -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --peerAddresses localhost:7051 --tlsRootCertFiles ${PEER0_ORG1_CA} --peerAddresses localhost:9051 --tlsRootCertFiles ${PEER0_ORG2_CA} --channelID mychannel --name papercontract -v 0 --sequence 1 --tls --cafile $ORDERER_CA --waitForEvent
+        peer lifecycle chaincode commit -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --peerAddresses localhost:7051 --tlsRootCertFiles ${PEER0_ORG1_CA} --peerAddresses localhost:9051 --tlsRootCertFiles ${PEER0_ORG2_CA} --channelID mychannel --name papercontract -v 0 --sequence 1 --tls --cafile $ORDERER_CA --waitForEvent
 
 OUT:
 
@@ -236,8 +225,8 @@ OUT:
 Commit the chaincode definition to the channel COMPLETE!
 
 4. Install application magnetocorp.
-FROM path: hf/commercial-paper/organization/magnetocorp/application$
-ENTER:
+   FROM path: hf/commercial-paper/organization/magnetocorp/application$
+   ENTER:
 
 Intall npm module.
 
@@ -250,42 +239,37 @@ OPTIONS: for manual use application from terminal.
     node enrollUser.js
     node issue.js
 
-5. Install application digibank.
-Open new terminal:
-FROM: path: hf/commercial-paper/organization/digibank/application$
-ENTER:
+5.  Install application digibank.
+    Open new terminal:
+    FROM: path: hf/commercial-paper/organization/digibank/application$
+    ENTER:
 
-    nvm i 14
-    npm i
-    npm run serve
-
+        nvm i 14
+        npm i
+        npm run serve
 
 OPTIONS: for manual use application from terminal.
 
     node enrollUser.js
     node buy.js
     node redeem.js
-    
+
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Useful links
 
 #Commercial paper MagnetoCorp server REST API documentation.
 
-
-
 In Isabella’s terminal window, run the enrollUser.js program to add identity information to her wallet:
 
     /api/enrolluser/
-    
+
 use issue.js to submit a transaction that will issue MagnetoCorp commercial paper 00001:
-    /api/issue/
+/api/issue/
 
     /api/history/
 
 #Commercial paper DigiBank server REST API documentation.
-
-
 
     /api/enrolluser/
 
